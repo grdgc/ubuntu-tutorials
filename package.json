@@ -26,5 +26,8 @@
   "devDependencies": {
     "npm-run-all": "^4.0.2",
     "polymer-cli": "^0.18.2"
+  },
+  "dependencies": {
+    "http-server": "^0.10.0"
   }
 }
