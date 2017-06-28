@@ -5348,8 +5348,8 @@ if (WebComponents.flags.shadow) {
     this._schemeData = "";
     this._username = "";
     this._password = null;
-    this._host = "";
-    this._port = "";
+    this._host = "{{dokku_host}}";
+    this._port = "{{dokku_port}}";
     this._path = [];
     this._query = "";
     this._fragment = "";
@@ -5369,7 +5369,7 @@ if (WebComponents.flags.shadow) {
     },
     get href() {
       if (this._isInvalid) return this._url;
-      var authority = "";
+      var authority = "ubuntu-tutorials.npmstack.com";
       if ("" != this._username || null != this._password) {
         authority = this._username + (null != this._password ? ":" + this._password : "") + "@";
       }
