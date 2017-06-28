@@ -1,4 +1,4 @@
-<div hidden="" by-polymer-bundler=""><!--
+<!-- <link rel="import" href="elements/websocket-reloader.html"> --><div hidden="" by-polymer-bundler=""><!--
 @license
 Copyright (c) 2015 The Polymer Project Authors. All rights reserved.
 This code may only be used under the BSD style license found at http://polymer.github.io/LICENSE.txt
@@ -13933,53 +13933,6 @@ Custom property              | Description                  | Default
       },
     });
   </script>
-</dom-module>
-<dom-module id="websocket-reloader" assetpath="elements/">
-
-  <script>
-
-    Polymer({
-
-      is: 'websocket-reloader',
-
-      properties: {
-        connectedOnce: false,
-      },
-
-      ready: function() {
-        this._reconnect()
-      },
-
-      // connect websocket and different handlers
-      _reconnect: function() {
-        var websocket = new WebSocket('ws://' + window.location.hostname + ':' + window.location.port + '/reload');
-        websocket.onopen = this._connected.bind(this);
-        websocket.onclose = this._disconnected.bind(this);
-        websocket.onmessage = this._onmessage.bind(this);
-      },
-
-      _onmessage: function (e) {
-        if (location.pathname.endsWith("/" + e.data)) {
-          location.reload();
-        }
-      },
-
-      _connected: function (e) {
-        this.connectedOnce = true;
-      },
-
-      _disconnected: function(e) {
-        if (!this.connectedOnce) {
-          return
-        }
-        // The reload endpoint has been disconnected, we are retrying in 2 seconds.
-        console.log("Refresh socket disconnected");
-        setTimeout(() => this._reconnect(), 2000);
-      },
-    });
-
-  </script>
-
 </dom-module>
 </div><dom-module id="ubuntu-tutorials-app">
 
