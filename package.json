@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/canonical-websites/tutorials.ubuntu.com.git"
+    "url": "git+https://github.com/stackriot/tutorials.ubuntu.com.git"
   },
   "bugs": {
-    "url": "https://github.com/canonical-websites/tutorials.ubuntu.com/issues"
+    "url": "https://github.com/stackriot/tutorials.ubuntu.com/issues"
   },
   "homepage": "https://ubuntu-tutorials.npmstack.com",
   "scripts": {
@@ -21,7 +21,7 @@
     "polymer-serve": "npm-run-all 'polymer serve {@}' --",
     "serve": "npm-run-all 'serve-examples {@}' --",
     "serve-examples": "./bin/serve $(if [ -z \"$*\" ]; then echo \"examples\"; fi)",
-    "start": "http-server -a '0.0.0.0' -p '8080' build/bundled"
+    "start": "http-server -a '0.0.0.0' -p '5000' -d 'build/bundled'"
   },
   "devDependencies": {
     "npm-run-all": "^4.0.2",
