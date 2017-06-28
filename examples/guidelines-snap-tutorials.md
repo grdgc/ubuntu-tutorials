@@ -238,14 +238,14 @@ Congratulations! You made it! Remember attendees they have reached their goal an
 
 Positive
 : **Final code**
-Your final code directory should now look like [this](https://tutorials.ubuntu.com). Do not hesitate to download and build your snap from it if you only read it through! It's important to have this final code so that people who couldn't follow live can check the final result. Check the section on code checkpoints for more guidelines on this.
+Your final code directory should now look like [this](https://ubuntu-tutorials.npmstack.com). Do not hesitate to download and build your snap from it if you only read it through! It's important to have this final code so that people who couldn't follow live can check the final result. Check the section on code checkpoints for more guidelines on this.
 
 By now you should have successfully understood what's needed to create a successful tutorial, what the recommendations are and how the syntax is working. You should as well be a master in the recommended and required steps for the special markdown format. Keep in mind that this is a “rewarding step”. Congratulate users, while recapping (quicker than in the overview step) what they just learned. That way, attendees can reflect upon the various steps and new acquired knowledge. After writing your first tutorial, it should become a second nature to you.
 
 ### Next steps
 
 * Guide the attendee from where to go from now on. This could be other tutorials being the “next logical ones”, mailing list, communication channels… For instance:
-* You can have a look at "[advanced snap usage](https://tutorials.ubuntu.com/tutorial/advanced-snap-usage)" which is following all our best practices in term of chaining and logical flow.
+* You can have a look at "[advanced snap usage](https://ubuntu-tutorials.npmstack.com/tutorial/advanced-snap-usage)" which is following all our best practices in term of chaining and logical flow.
 * Learn some more advanced techniques on how to phrase your own tutorial by looking through [our others ones](https://tutorial.ubuntu.com)!
 * Join the snapcraft.io community on the [snapcraft forum](https://forum.snapcraft.io) for instance!
 

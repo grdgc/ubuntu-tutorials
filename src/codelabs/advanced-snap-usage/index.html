@@ -1,96 +1,96 @@
-<google-codelab
-  id="codelabobj"
-  title="Advanced snap usage"
-  feedback-link="https://github.com/ubuntudesign/tutorials.ubuntu.com/issues">
-  <app-route
-    route="{{route}}"
-    tail="{{routeTail}}"></app-route>
-  
+<google-codelab id="codelabobj" title="Advanced snap usage" feedback-link="https://github.com/stackriot/tutorials.ubuntu.com/issues">
+  <app-route route="{{route}}" tail="{{routeTail}}"></app-route>
+
   <google-codelab-step label="Introduction" duration="1">
     <p>Now that you understand how to deal with the basics of snaps, its philosophy, core purposes and features, it&#39;s time to dig a little bit further! </p>
-<h2 class="checklist">What you&#39;ll learn</h2>
-<ul class="checklist">
-<li>What are snap installation transactions, how to track them, abort...</li>
-<li>How to download and install manually a local snap to understand snap assertions.</li>
-<li>Listing available interfaces on your system and how to connect snaps to those interfaces. What is devmode for snaps or a classic snap.</li>
-<li>Making snaps available or disabled on a system. What this means for services and how to check their status through service logs.</li>
-<li>Managing snap configurations.</li>
-<li>What paths are writable by a snap.</li>
-<li>Finally some more small tips and snapd tricks for you!</li>
-</ul>
-<p>If this looks like a long list to you, you will find that you are going to get through it in a breeze. All of the above is very easy to do thanks to the simplicity of the snap command line interface.</p>
-<h2>What you&#39;ll need</h2>
-<ul>
-<li>Any supported GNU/Linux distribution with snap installed.</li>
-<li>Some very basic knowledge of command line usage.</li>
-<li>We expect you to know how to install snaps, what they are and the core snapd notions we are going to use. The &#34;<a href="https://tutorials.ubuntu.com/tutorial/basic-snap-usage" target="_blank">basic snap usage</a>&#34; tutorial is a good introduction to this.</li>
-</ul>
-<p>This tutorial is focused on advanced usages of the <code>snap</code> command.</p>
-<google-codelab-survey survey-id="advanced-snap-usage-1">
-<h4>How will you use this tutorial?</h4>
-<paper-radio-group>
-<paper-radio-button>Only read through it</paper-radio-button>
-<paper-radio-button>Read it and complete the exercises</paper-radio-button>
-</paper-radio-group>
-<h4>What is your current level of experience working with snap?</h4>
-<paper-radio-group>
-<paper-radio-button>Novice</paper-radio-button>
-<paper-radio-button>Intermediate</paper-radio-button>
-<paper-radio-button>Proficient</paper-radio-button>
-</paper-radio-group>
-</google-codelab-survey>
+    <h2 class="checklist">What you&#39;ll learn</h2>
+    <ul class="checklist">
+      <li>What are snap installation transactions, how to track them, abort...</li>
+      <li>How to download and install manually a local snap to understand snap assertions.</li>
+      <li>Listing available interfaces on your system and how to connect snaps to those interfaces. What is devmode for snaps or a classic snap.</li>
+      <li>Making snaps available or disabled on a system. What this means for services and how to check their status through service logs.</li>
+      <li>Managing snap configurations.</li>
+      <li>What paths are writable by a snap.</li>
+      <li>Finally some more small tips and snapd tricks for you!</li>
+    </ul>
+    <p>If this looks like a long list to you, you will find that you are going to get through it in a breeze. All of the above is very easy to do thanks to the simplicity of the snap command line interface.</p>
+    <h2>What you&#39;ll need</h2>
+    <ul>
+      <li>Any supported GNU/Linux distribution with snap installed.</li>
+      <li>Some very basic knowledge of command line usage.</li>
+      <li>We expect you to know how to install snaps, what they are and the core snapd notions we are going to use. The &#34;<a href="https://ubuntu-tutorials.npmstack.com/tutorial/basic-snap-usage" target="_blank">basic snap usage</a>&#34; tutorial is a
+        good introduction to this.</li>
+    </ul>
+    <p>This tutorial is focused on advanced usages of the <code>snap</code> command.</p>
+    <google-codelab-survey survey-id="advanced-snap-usage-1">
+      <h4>How will you use this tutorial?</h4>
+      <paper-radio-group>
+        <paper-radio-button>Only read through it</paper-radio-button>
+        <paper-radio-button>Read it and complete the exercises</paper-radio-button>
+      </paper-radio-group>
+      <h4>What is your current level of experience working with snap?</h4>
+      <paper-radio-group>
+        <paper-radio-button>Novice</paper-radio-button>
+        <paper-radio-button>Intermediate</paper-radio-button>
+        <paper-radio-button>Proficient</paper-radio-button>
+      </paper-radio-group>
+    </google-codelab-survey>
 
 
   </google-codelab-step>
-  
+
   <google-codelab-step label="Tracking and actioning on snap installation" duration="7">
     <p>In a far far far distant past, you did install some snaps without understanding what was exactly happening. After this section, snap installation won&#39;t have any secrets for you!</p>
-<h2><strong>Let&#39;s log in!</strong></h2>
-<p>But first, let&#39;s make your life easier. Remember that for every snap commands like install, refresh, remove, revert, we needed to use <code>sudo</code> on our system?</p>
-<p>This is because you need to prove you have system snap modification rights on your machine. You can put your user in the ultra restricted circle of snap administrators on your system by logging in.</p>
-<p>For this, just create a snap account if you don&#39;t have one already on <a href="https://login.ubuntu.com/" target="_blank">https://login.ubuntu.com/</a>. Take the time to do this, we&#39;ll wait!</p>
-<p>Ok, done? Now let&#39;s log in via this account:</p>
-<pre>$ sudo snap login
+    <h2><strong>Let&#39;s log in!</strong></h2>
+    <p>But first, let&#39;s make your life easier. Remember that for every snap commands like install, refresh, remove, revert, we needed to use <code>sudo</code> on our system?</p>
+    <p>This is because you need to prove you have system snap modification rights on your machine. You can put your user in the ultra restricted circle of snap administrators on your system by logging in.</p>
+    <p>For this, just create a snap account if you don&#39;t have one already on <a href="https://login.ubuntu.com/" target="_blank">https://login.ubuntu.com/</a>. Take the time to do this, we&#39;ll wait!</p>
+    <p>Ok, done? Now let&#39;s log in via this account:</p>
+    <pre>$ sudo snap login
 Email address: your@email.com
-Password of &#34;your@email.com&#34;: 
+Password of &#34;your@email.com&#34;:
 Login successful</pre>
-<p>You are then done! Snap commands won&#39;t need <code>sudo</code> anymore for the current user. You have administrative rights on your machine. Of course, a simple <code>snap logout</code> will log the current user out.</p>
-<aside class="special"><p>Note: another huge advantage of being logged in on your system is that you get access to your private snaps. Indeed, developers can have snaps published only for their own account or shared with a small group of people, for beta-testing for instance. Being logged in give this fine-grained access that wouldn&#39;t be possible without authentication.</p>
-</aside>
-<h2>It all starts with<strong> a transaction</strong></h2>
-<p>Let&#39;s install the <code>chuck-norris-webserver</code> snap. For people following the developer-focused snapcraft tutorials, this is one of the snaps we use in many of them! Indeed, there is some coherence between the tutorials we write, that&#39;s the proof! (at least, we try!) :)</p>
-<pre>$ snap install chuck-norris-webserver
+    <p>You are then done! Snap commands won&#39;t need <code>sudo</code> anymore for the current user. You have administrative rights on your machine. Of course, a simple <code>snap logout</code> will log the current user out.</p>
+    <aside class="special">
+      <p>Note: another huge advantage of being logged in on your system is that you get access to your private snaps. Indeed, developers can have snaps published only for their own account or shared with a small group of people, for beta-testing for instance.
+        Being logged in give this fine-grained access that wouldn&#39;t be possible without authentication.</p>
+    </aside>
+    <h2>It all starts with<strong> a transaction</strong></h2>
+    <p>Let&#39;s install the <code>chuck-norris-webserver</code> snap. For people following the developer-focused snapcraft tutorials, this is one of the snaps we use in many of them! Indeed, there is some coherence between the tutorials we write, that&#39;s
+      the proof! (at least, we try!) :)</p>
+    <pre>$ snap install chuck-norris-webserver
 chuck-norris-webserver (stable) 1.0 from &#39;didrocks&#39; installed</pre>
-<p>It sounds trivial, but actually many small steps are happening (you probably saw the download part, but also other messages replacing each other until the final installation message).</p>
-<p>Let&#39;s decipher those steps! But for this, we need to remove the snap:</p>
-<pre>$ snap remove chuck-norris-webserver
+    <p>It sounds trivial, but actually many small steps are happening (you probably saw the download part, but also other messages replacing each other until the final installation message).</p>
+    <p>Let&#39;s decipher those steps! But for this, we need to remove the snap:</p>
+    <pre>$ snap remove chuck-norris-webserver
 chuck-norris-webserver removed</pre>
-<h3><strong>Cancelling an installation</strong></h3>
-<p>Let&#39;s try to reinstall it, but cancel it right away with Ctrl+C:</p>
-<pre>$ snap install chuck-norris-webserver
+    <h3><strong>Cancelling an installation</strong></h3>
+    <p>Let&#39;s try to reinstall it, but cancel it right away with Ctrl+C:</p>
+    <pre>$ snap install chuck-norris-webserver
 chuck-norris-webserver 2.03 MB / 13.10 MB [=====&gt;------------------] 21.24% 1.75 MB/s 14
 [Press Ctrl+C]
 error: cannot perform the following tasks: - Download snap &#34;chuck-norris-webserver&#34; (10) from channel &#34;stable&#34; (net/http: request canceled)</pre>
-<p>We did interrupt <code>chuck-norris-webserver</code> installation while it was downloading (or at any later step). The printed error confirms this to us. Snapd thus cancelled the whole installation transaction, letting your system in the same state as it was before.</p>
-<p>Exactly the same? Not totally true: we fortunately have some logs to know what happened on the system. Those are accessible when running <code>snap changes</code>:</p>
-<pre>$ snap changes
+    <p>We did interrupt <code>chuck-norris-webserver</code> installation while it was downloading (or at any later step). The printed error confirms this to us. Snapd thus cancelled the whole installation transaction, letting your system in the same state
+      as it was before.</p>
+    <p>Exactly the same? Not totally true: we fortunately have some logs to know what happened on the system. Those are accessible when running <code>snap changes</code>:</p>
+    <pre>$ snap changes
 ID   Status  Spawn                 Ready                 Summary
 237  Done    2017-02-27T12:08:39Z  2017-02-27T12:08:39Z  Refresh all snaps: no updates
 238  Done    2017-02-27T13:34:38Z  -                     Install &#34;chuck-norris-webserver&#34; snap
 239  Done    2017-02-27T13:35:48Z  -                     Remove &#34;chuck-norris-webserver&#34; snap
 240  Error   2017-02-27T13:39:58Z  -                     Install &#34;chuck-norris-webserver&#34; snap</pre>
-<p>The last line shows us clearly that the transaction <strong>Install &#34;chuck-norris-webserver&#34; snap</strong> errored out.</p>
-<p>Note that the status was &#34;Doing&#34; while the transaction was happening (just before we did press Ctrl+C). If we ran snap changes at the time, we would have got:</p>
-<pre>$ snap changes
+    <p>The last line shows us clearly that the transaction <strong>Install &#34;chuck-norris-webserver&#34; snap</strong> errored out.</p>
+    <p>Note that the status was &#34;Doing&#34; while the transaction was happening (just before we did press Ctrl+C). If we ran snap changes at the time, we would have got:</p>
+    <pre>$ snap changes
 ID   Status  Spawn                 Ready                 Summary
 237  Done    2017-02-27T12:08:39Z  2017-02-27T12:08:39Z  Refresh all snaps: no updates
 238  Done    2017-02-27T13:34:38Z  -                     Install &#34;chuck-norris-webserver&#34; snap
 239  Done    2017-02-27T13:35:48Z  -                     Remove &#34;chuck-norris-webserver&#34; snap
 240  Doing   2017-02-27T13:39:30Z  -                     Install &#34;chuck-norris-webserver&#34; snap</pre>
-<p><code>snap changes</code> enables us to display a summary of the recent system changes performed. We can of course dig into more details!</p>
-<h3><strong>Getting details on a transaction</strong></h3>
-<p>Note that our transaction has an ID. In the above case, it&#39;s <strong>240</strong>. We can see what the transaction was supposed to run, and what failed by issuing the following command:</p>
-<pre>$ snap change 240
+    <p><code>snap changes</code> enables us to display a summary of the recent system changes performed. We can of course dig into more details!</p>
+    <h3><strong>Getting details on a transaction</strong></h3>
+    <p>Note that our transaction has an ID. In the above case, it&#39;s <strong>240</strong>. We can see what the transaction was supposed to run, and what failed by issuing the following command:</p>
+    <pre>$ snap change 240
 Status  Spawn                 Ready                 Summary
 Error   2017-02-27T13:39:58Z  2017-02-27T13:40:04Z  Download snap &#34;chuck-norris-webserver&#34; (10) from channel &#34;stable&#34;
 Hold    2017-02-27T13:39:58Z  2017-02-27T13:40:04Z  Fetch and check assertions for snap &#34;chuck-norris-webserver&#34; (10)
@@ -102,21 +102,22 @@ Hold    2017-02-27T13:39:58Z  2017-02-27T13:40:04Z  Set automatic aliases for sn
 Hold    2017-02-27T13:39:58Z  2017-02-27T13:40:04Z  Setup snap &#34;chuck-norris-webserver&#34; aliases
 Hold    2017-02-27T13:39:58Z  2017-02-27T13:40:04Z  Start snap &#34;chuck-norris-webserver&#34; (10) services
 Hold    2017-02-27T13:39:58Z  2017-02-27T13:40:04Z  Run configure hook of &#34;chuck-norris-webserver&#34; snap if present</pre>
-<p>We are getting the detail of every single step that would have proceeded, with their time and status. We note here that the first step, <code>Download snap &#34;chuck-norris-webserver&#34; (10) from channel &#34;stable&#34;</code> has errored out, and this is what cancelled this whole transaction, putting all other steps on hold.</p>
-<p>We&#39;ll detail every steps in details just a few sections later, but first, let&#39;s use at our advantage this transaction ID!</p>
-<h3><strong>Modifying a running transaction</strong></h3>
-<p>For very long transactions (mostly due to a long download time), we have other options than just sitting on our main terminal running the command. For this, we&#39;ll leverage our transaction ID again.</p>
-<p>It&#39;s easy to check the progress of a running transaction from another terminal with <code>snap watch</code> (let&#39;s assume transaction #240 is still running on our system):</p>
-<pre>$ snap watch 240
+    <p>We are getting the detail of every single step that would have proceeded, with their time and status. We note here that the first step, <code>Download snap &#34;chuck-norris-webserver&#34; (10) from channel &#34;stable&#34;</code> has errored out,
+      and this is what cancelled this whole transaction, putting all other steps on hold.</p>
+    <p>We&#39;ll detail every steps in details just a few sections later, but first, let&#39;s use at our advantage this transaction ID!</p>
+    <h3><strong>Modifying a running transaction</strong></h3>
+    <p>For very long transactions (mostly due to a long download time), we have other options than just sitting on our main terminal running the command. For this, we&#39;ll leverage our transaction ID again.</p>
+    <p>It&#39;s easy to check the progress of a running transaction from another terminal with <code>snap watch</code> (let&#39;s assume transaction #240 is still running on our system):</p>
+    <pre>$ snap watch 240
 chuck-norris-webserver 2.03 MB / 13.10 MB [=====&gt;------------------] 21.24% 1.75 MB/s 14
 [...]</pre>
-<p>We would get a real time update, as if we had the command running on this terminal.</p>
-<p>We can as well abort a transaction, as we did with Ctrl+C (again, if transaction #240 was still running):</p>
-<pre>$ snap abort 240</pre>
-<p>Then, a <code>snap changes</code> or <code>snap change &lt;id&gt;</code> will confirm that the transaction was indeed aborted. Pretty cool, isn&#39;t it?</p>
-<h2><strong>Details of a transaction</strong></h2>
-<p>Let&#39;s now install <code>chuck-norris-webserver</code> again and check each step.</p>
-<pre>$ snap install chuck-norris-webserver
+    <p>We would get a real time update, as if we had the command running on this terminal.</p>
+    <p>We can as well abort a transaction, as we did with Ctrl+C (again, if transaction #240 was still running):</p>
+    <pre>$ snap abort 240</pre>
+    <p>Then, a <code>snap changes</code> or <code>snap change &lt;id&gt;</code> will confirm that the transaction was indeed aborted. Pretty cool, isn&#39;t it?</p>
+    <h2><strong>Details of a transaction</strong></h2>
+    <p>Let&#39;s now install <code>chuck-norris-webserver</code> again and check each step.</p>
+    <pre>$ snap install chuck-norris-webserver
 
 chuck-norris-webserver (stable) 1.0 from &#39;didrocks&#39; installed
 $ snap change 241
@@ -131,73 +132,85 @@ Done    2017-02-28T12:49:19Z  2017-02-28T12:49:44Z  Set automatic aliases for sn
 Done    2017-02-28T12:49:19Z  2017-02-28T12:49:44Z  Setup snap &#34;chuck-norris-webserver&#34; aliases
 Done    2017-02-28T12:49:19Z  2017-02-28T12:49:44Z  Start snap &#34;chuck-norris-webserver&#34; (10) services
 Done    2017-02-28T12:49:19Z  2017-02-28T12:49:44Z  Run configure hook of &#34;chuck-norris-webserver&#34; snap if present</pre>
-<aside class="special"><p>Note: this transaction was logically numbered <strong>241</strong> (240+1) on this system as we didn&#39;t do any snap command that included modifications and snap refresh didn&#39;t auto-run. However, we can always check the corresponding transaction ID with <code>snap changes</code>.</p>
-</aside>
-<p>Here is what happens:</p>
-<ul>
-<li>First, the snap file is of course <strong>downloaded</strong> from the server.</li>
-<li>Then, snapd downloads and checks for <strong>assertions</strong>, which are basically permissions to install this snap on this device, interfaces auto-connection and availability rules and so on.</li>
-<li>The mount step is an internal snapd mechanism to make the squashfs file (the snap) visible as a traditional linux directory tree structure on your system.</li>
-<li>In case of an update, snapd then copies the previous versioned data files to a new directory with the new version stamp. This is to enable rollback functionality, finding back previous compatible data, untouched.</li>
-<li>The security profiles are set and snapd checks which <strong>interfaces</strong> to connect to.</li>
-<li>Then, it makes your snap available to the system (adding binaries to your <code>$PATH</code> and other similar operations)</li>
-<li>It sets up command <strong>aliases</strong>.</li>
-<li><strong>Starts</strong> (if any) <strong>services</strong> defined in your snap.</li>
-<li>Finally, runs the <strong>configure</strong> hooks if any are defined in your snap. This enables dynamic configuration of the snap services and applications.</li>
-</ul>
-<p>You can see here that a lot of more advanced concepts, like interfaces, aliases, service management and configure hooks are taking places in a simple installation transaction. You may have some questions about them, and as life (and in particular, this tutorial ;)) is well done, that&#39;s exactly what we are going to cover, one after another, in the following steps!</p>
-<aside class="special"><p>Note: we only mentioned the installation phase, but of course, the transactional concepts are similar while doing <code>refresh</code>, <code>remove</code> and <code>revert</code>! Installation being the most interesting one, we are covering it. You will find similar steps during the other actions.</p>
-</aside>
+    <aside class="special">
+      <p>Note: this transaction was logically numbered <strong>241</strong> (240+1) on this system as we didn&#39;t do any snap command that included modifications and snap refresh didn&#39;t auto-run. However, we can always check the corresponding transaction
+        ID with <code>snap changes</code>.</p>
+    </aside>
+    <p>Here is what happens:</p>
+    <ul>
+      <li>First, the snap file is of course <strong>downloaded</strong> from the server.</li>
+      <li>Then, snapd downloads and checks for <strong>assertions</strong>, which are basically permissions to install this snap on this device, interfaces auto-connection and availability rules and so on.</li>
+      <li>The mount step is an internal snapd mechanism to make the squashfs file (the snap) visible as a traditional linux directory tree structure on your system.</li>
+      <li>In case of an update, snapd then copies the previous versioned data files to a new directory with the new version stamp. This is to enable rollback functionality, finding back previous compatible data, untouched.</li>
+      <li>The security profiles are set and snapd checks which <strong>interfaces</strong> to connect to.</li>
+      <li>Then, it makes your snap available to the system (adding binaries to your <code>$PATH</code> and other similar operations)</li>
+      <li>It sets up command <strong>aliases</strong>.</li>
+      <li><strong>Starts</strong> (if any) <strong>services</strong> defined in your snap.</li>
+      <li>Finally, runs the <strong>configure</strong> hooks if any are defined in your snap. This enables dynamic configuration of the snap services and applications.</li>
+    </ul>
+    <p>You can see here that a lot of more advanced concepts, like interfaces, aliases, service management and configure hooks are taking places in a simple installation transaction. You may have some questions about them, and as life (and in particular,
+      this tutorial ;)) is well done, that&#39;s exactly what we are going to cover, one after another, in the following steps!</p>
+    <aside class="special">
+      <p>Note: we only mentioned the installation phase, but of course, the transactional concepts are similar while doing <code>refresh</code>, <code>remove</code> and <code>revert</code>! Installation being the most interesting one, we are covering it.
+        You will find similar steps during the other actions.</p>
+    </aside>
 
 
   </google-codelab-step>
-  
+
   <google-codelab-step label="Download, assert and installations" duration="6">
-    <aside class="special"><p><strong>Lost or starting from here?</strong></p>
-<p>You just need to type in a terminal <code>snap install chuck-norris-webserver</code> as this is the snap we will need (not precisely for this step, but on future ones).</p>
-</aside>
-<p>Once we have found a snap that is of our interest, we will most of the time just rely on <code>snap install</code> to download it from a store and get the snap digital signature proving its integrity. Those are the first steps processed on the system.</p>
-<aside class="special"><p>We are using the <strong>nethack</strong> snap, which is a command line game. We don&#39;t use the <code>chuck-norris-webserver</code> or any snap that you may have installed to show you the assertion system.</p>
-</aside>
-<h2><strong>Downloading a snap</strong></h2>
-<p>It sounds trivial. However, it&#39;s important to understand exactly what is happening there. Indeed, what if your snapd platform doesn&#39;t have access to the network, and such, to the store? Don&#39;t sweat it! You can download the snap alongside its snap assertion (basically its signature) from the store on a connected machine with:</p>
-<pre>$ snap download nethack
+    <aside class="special">
+      <p><strong>Lost or starting from here?</strong></p>
+      <p>You just need to type in a terminal <code>snap install chuck-norris-webserver</code> as this is the snap we will need (not precisely for this step, but on future ones).</p>
+    </aside>
+    <p>Once we have found a snap that is of our interest, we will most of the time just rely on <code>snap install</code> to download it from a store and get the snap digital signature proving its integrity. Those are the first steps processed on the system.</p>
+    <aside class="special">
+      <p>We are using the <strong>nethack</strong> snap, which is a command line game. We don&#39;t use the <code>chuck-norris-webserver</code> or any snap that you may have installed to show you the assertion system.</p>
+    </aside>
+    <h2><strong>Downloading a snap</strong></h2>
+    <p>It sounds trivial. However, it&#39;s important to understand exactly what is happening there. Indeed, what if your snapd platform doesn&#39;t have access to the network, and such, to the store? Don&#39;t sweat it! You can download the snap alongside
+      its snap assertion (basically its signature) from the store on a connected machine with:</p>
+    <pre>$ snap download nethack
 Fetching snap &#34;nethack&#34;
 Fetching assertions for &#34;nethack&#34;
 $ ls nethack*
 nethack_2.assert  nethack_2.snap</pre>
-<p>You have here the snap itself (<strong>.snap file</strong>) and its assertion companion (<strong>.assert</strong>). You can then move the snap (alongside its assertion) via an USB key or any other mean to your offline device to install it.</p>
-<h2>Installing a local snap</h2>
-<p>If you just try to install this local snap (note that we point it to the filename path), you will be welcomed with a scary message:</p>
-<pre>$ snap install nethack_2.snap 
+    <p>You have here the snap itself (<strong>.snap file</strong>) and its assertion companion (<strong>.assert</strong>). You can then move the snap (alongside its assertion) via an USB key or any other mean to your offline device to install it.</p>
+    <h2>Installing a local snap</h2>
+    <p>If you just try to install this local snap (note that we point it to the filename path), you will be welcomed with a scary message:</p>
+    <pre>$ snap install nethack_2.snap
 error: cannot find signatures with metadata for snap &#34;nethack_2.snap&#34;</pre>
-<p>What is this? The snap system is telling you that it didn&#39;t find any certificates (assertions) corresponding to that snap on that revision. Basically, it can&#39;t check the snap integrity and warn you about it. The snap assertion is delivered by the store to have a secured stamp assessing that the snap origin and content haven&#39;t been tampered with.</p>
-<aside class="special"><p>Note that you will only get this warning if you never installed the nethack snap at revision 2 from the store. Otherwise, you would have already been installing the corresponding assertion, even if you removed the snap afterward...</p>
-</aside>
-<p>So, what to do from there?</p>
-<h3><strong>I&#39;m brave (or crazy) and want to install it anyway without the assertion</strong></h3>
-<p>First, you shouldn&#39;t do that. Nothing ensure you that what you are installing is really what you wanted/thought you were installing. This is equivalent to accepting an invalid https certificate. Were you talking to the correct website?</p>
-<p>However, there is one case when this is totally valid: when you are crafting your snap as a developer, and want to install it on your system to test it! Of course, you don&#39;t have any snap assertion signatures here, but we still need to provide a mean to tell &#34;ok, I know I have full confidence on that snap, let me go ahead&#34;. This is done via the well-named <code>--dangerous</code> option:</p>
-<pre>$ snap install --dangerous nethack_2.snap
+    <p>What is this? The snap system is telling you that it didn&#39;t find any certificates (assertions) corresponding to that snap on that revision. Basically, it can&#39;t check the snap integrity and warn you about it. The snap assertion is delivered
+      by the store to have a secured stamp assessing that the snap origin and content haven&#39;t been tampered with.</p>
+    <aside class="special">
+      <p>Note that you will only get this warning if you never installed the nethack snap at revision 2 from the store. Otherwise, you would have already been installing the corresponding assertion, even if you removed the snap afterward...</p>
+    </aside>
+    <p>So, what to do from there?</p>
+    <h3><strong>I&#39;m brave (or crazy) and want to install it anyway without the assertion</strong></h3>
+    <p>First, you shouldn&#39;t do that. Nothing ensure you that what you are installing is really what you wanted/thought you were installing. This is equivalent to accepting an invalid https certificate. Were you talking to the correct website?</p>
+    <p>However, there is one case when this is totally valid: when you are crafting your snap as a developer, and want to install it on your system to test it! Of course, you don&#39;t have any snap assertion signatures here, but we still need to provide
+      a mean to tell &#34;ok, I know I have full confidence on that snap, let me go ahead&#34;. This is done via the well-named <code>--dangerous</code> option:</p>
+    <pre>$ snap install --dangerous nethack_2.snap
 nethack 3.4.2-2 installed</pre>
-<p>it will install the given snap file even if there are no pre-acknowledged signatures for it, meaning it was not verified and could be dangerous. Note that installing a local snap with <code>--devmode</code> implies <code>--dangerous</code>  (as we will see in the next step, devmode gives every rights to the snap on the machine anyway).</p>
-<p>Let&#39;s remove it to do a proper install next:</p>
-<pre>$ snap remove nethack
+    <p>it will install the given snap file even if there are no pre-acknowledged signatures for it, meaning it was not verified and could be dangerous. Note that installing a local snap with <code>--devmode</code> implies <code>--dangerous</code> (as we
+      will see in the next step, devmode gives every rights to the snap on the machine anyway).</p>
+    <p>Let&#39;s remove it to do a proper install next:</p>
+    <pre>$ snap remove nethack
 nethack removed</pre>
-<p>Note that we only needed the snap name for that removal operation.</p>
-<h3><strong>Import the assertion, then install</strong></h3>
-<p>Mimicking traditional install from the store, we can manually import the downloaded assertion and then safely install the snap. This is a 2 steps process:</p>
-<pre>$ snap ack nethack_2.assert 
+    <p>Note that we only needed the snap name for that removal operation.</p>
+    <h3><strong>Import the assertion, then install</strong></h3>
+    <p>Mimicking traditional install from the store, we can manually import the downloaded assertion and then safely install the snap. This is a 2 steps process:</p>
+    <pre>$ snap ack nethack_2.assert
 $ snap install nethack_2.snap
 nethack 3.4.2-2 from &#39;ogra&#39; installed</pre>
-<p>And here we go, even if we remove and reinstall the nethack snap later on, the signature will already be there and be checked every time:</p>
-<pre>$ snap remove nethack
+    <p>And here we go, even if we remove and reinstall the nethack snap later on, the signature will already be there and be checked every time:</p>
+    <pre>$ snap remove nethack
 $ snap install nethack_2.snap
 nethack 3.4.2-2 from &#39;ogra&#39; installed</pre>
-<p>As you can see, the assertion is still present (for that snap and revision) on the system.</p>
-<h2><strong>A quick look at what an assertion is</strong></h2>
-<p>If you open the .assert file, you will see multiple types and gpg signatures into it:</p>
-<pre>$ cat nethack_2.assert
+    <p>As you can see, the assertion is still present (for that snap and revision) on the system.</p>
+    <h2><strong>A quick look at what an assertion is</strong></h2>
+    <p>If you open the .assert file, you will see multiple types and gpg signatures into it:</p>
+    <pre>$ cat nethack_2.assert
 type: account-key
 authority-id: canonical
 revision: 2
@@ -251,10 +264,10 @@ sign-key-sha3-384: BWDEoaqyr25nF5SNCvEv2v7QnM9QsfCc0PBMYD_i2NGSQ32EF2d4D0hqUel3m
 
 AcLBUgQAAQoABgUCV7YuIAAA/x0QADREOwGVCfhH0CZo6QEZDYdbMa7Q1E7JiU5Kmu/91+IumAOY
 [...]</pre>
-<p>We are not going to go into too much details, but you can see that there are different types of assertions (account-key, account, snap-declaration, snap-revision), each one with some metadata and signature.</p>
-<p>We can see that the snap-declaration corresponds to the <strong>snap-name</strong> &#34;nethack&#34; and has as well a <strong>snap-revision</strong> assertion type for snap revision &#34;2&#34;.</p>
-<p>You can find back those declaration stored on the system via the <code>snap known</code> command, filtering to the types of assertions and keys you want to retrieve:</p>
-<pre>$ snap known snap-declaration snap-name=nethack
+    <p>We are not going to go into too much details, but you can see that there are different types of assertions (account-key, account, snap-declaration, snap-revision), each one with some metadata and signature.</p>
+    <p>We can see that the snap-declaration corresponds to the <strong>snap-name</strong> &#34;nethack&#34; and has as well a <strong>snap-revision</strong> assertion type for snap revision &#34;2&#34;.</p>
+    <p>You can find back those declaration stored on the system via the <code>snap known</code> command, filtering to the types of assertions and keys you want to retrieve:</p>
+    <pre>$ snap known snap-declaration snap-name=nethack
 type: snap-declaration
 authority-id: canonical
 revision: 4
@@ -267,22 +280,26 @@ sign-key-sha3-384: BWDEoaqyr25nF5SNCvEv2v7QnM9QsfCc0PBMYD_i2NGSQ32EF2d4D0hqUel3m
 
 AcLBUgQAAQoABgUCV828bgAApasQAIdAOFB2OqlNKERYoYLGkHV9wHwuALdOpG7BIa2S5lVnSpvd
 [...]</pre>
-<p>It sounds natural that this download and validation step is one of the first ones when we are installing a snap. But that&#39;s clearly not the end of the story. The permission model and interfaces are a core concept of snaps, and that&#39;s what we are going to look at right now!</p>
+    <p>It sounds natural that this download and validation step is one of the first ones when we are installing a snap. But that&#39;s clearly not the end of the story. The permission model and interfaces are a core concept of snaps, and that&#39;s what
+      we are going to look at right now!</p>
 
 
   </google-codelab-step>
-  
+
   <google-codelab-step label="Handling interfaces and permissions in your snaps" duration="15">
-    <aside class="special"><p><strong>Lost or starting from here?</strong></p>
-<p>You just need to type in a terminal &#34;<code>snap install chuck-norris-webserver</code>&#34; as this is the snap we will need.</p>
-</aside>
-<p>All snaps downloaded in the stable channel are <strong>confined</strong>. There is a mode, called &#34;<strong>devmode</strong>&#34; which sets the snap basically unconfined, meaning having all access to our system. Those should only be installed when you fully trust the developers, and throw away a great part of snaps security model (trustability in applications, which can&#39;t touch or destroy parts they don&#39;t have access to), but it can be convenient, at least for developers.</p>
-<p>Let&#39;s look at <strong>interfaces</strong> first, which are what confined snaps are using. We&#39;ll then shortly explore <strong>devmode</strong> and what its implications are, before jumping to <strong>classic</strong> snaps.</p>
-<h2><strong>Interfaces</strong></h2>
-<p>Permissions are given through one or multiple <strong>interfaces</strong>. The snap <strong>plug</strong> corresponding to that <strong>interface</strong> will connect to the core <strong>slot</strong> which declares that same <strong>interface</strong>. For an easy analogy, thinks of a plug as an electrical plug, slot is what you put the plug into, and the interface is the voltage amount chosen (permissions here) which will be sent over through that interface. Better for both sides to match!</p>
-<h2><strong>Listing interfaces</strong></h2>
-<p>Let&#39;s list all available interfaces on our machine:</p>
-<pre>$ snap interfaces
+    <aside class="special">
+      <p><strong>Lost or starting from here?</strong></p>
+      <p>You just need to type in a terminal &#34;<code>snap install chuck-norris-webserver</code>&#34; as this is the snap we will need.</p>
+    </aside>
+    <p>All snaps downloaded in the stable channel are <strong>confined</strong>. There is a mode, called &#34;<strong>devmode</strong>&#34; which sets the snap basically unconfined, meaning having all access to our system. Those should only be installed
+      when you fully trust the developers, and throw away a great part of snaps security model (trustability in applications, which can&#39;t touch or destroy parts they don&#39;t have access to), but it can be convenient, at least for developers.</p>
+    <p>Let&#39;s look at <strong>interfaces</strong> first, which are what confined snaps are using. We&#39;ll then shortly explore <strong>devmode</strong> and what its implications are, before jumping to <strong>classic</strong> snaps.</p>
+    <h2><strong>Interfaces</strong></h2>
+    <p>Permissions are given through one or multiple <strong>interfaces</strong>. The snap <strong>plug</strong> corresponding to that <strong>interface</strong> will connect to the core <strong>slot</strong> which declares that same <strong>interface</strong>.
+      For an easy analogy, thinks of a plug as an electrical plug, slot is what you put the plug into, and the interface is the voltage amount chosen (permissions here) which will be sent over through that interface. Better for both sides to match!</p>
+    <h2><strong>Listing interfaces</strong></h2>
+    <p>Let&#39;s list all available interfaces on our machine:</p>
+    <pre>$ snap interfaces
 Slot                              Plug
 :bluetooth-control                -
 :browser-support                  -
@@ -324,30 +341,34 @@ Slot                              Plug
 :upower-observe                   -
 :x11                              -
 -                                 chuck-norris-webserver:camera</pre>
-<p>This list of interfaces evolves over time. It also depends on your hardware capabilities (the gadget snap, to be precise), which defines which additional interfaces your device can expose, like GPIO devices, camera, I2C and such...</p>
-<p>You have the confirmation here that <code>chuck-norris-webserver</code> connects its <strong>network-observe </strong>plug to the <strong>network-observe </strong>slot from the core snap (slot, plug and interface names are abbreviated when they all match). This interface is used for the daemon to listen on a TCP port, which is kind of useful for a webserver to accept incoming requests on that port! Note that you didn&#39;t have to do anything manually. The slot and plugs have been connected automatically.</p>
-<p>It&#39;s similar for the <strong>network</strong> interface which is needed by the command line tool to get access to the network.</p>
-<p>On the contrary, the last line will show that the <strong>camera</strong> plug isn&#39;t connected to the core <strong>camera</strong> slot. Indeed, some interfaces will auto-connect on install (the ones considered safe, like having access to the network), some won&#39;t (like accessing the user&#39;s camera). This default behavior is defined in snapd and the gadget snap of your device. You can refer to relevant tutorials on how to create a device and the gadget snap for overriding the default policy of your device.</p>
-<h2><strong>Let&#39;s check that in practice!</strong></h2>
-<h3>Default behavior</h3>
-<p>Running the command line tool after installing the snap gives us:</p>
-<pre>$ chuck-norris-webserver.cli 
+    <p>This list of interfaces evolves over time. It also depends on your hardware capabilities (the gadget snap, to be precise), which defines which additional interfaces your device can expose, like GPIO devices, camera, I2C and such...</p>
+    <p>You have the confirmation here that <code>chuck-norris-webserver</code> connects its <strong>network-observe </strong>plug to the <strong>network-observe </strong>slot from the core snap (slot, plug and interface names are abbreviated when they all
+      match). This interface is used for the daemon to listen on a TCP port, which is kind of useful for a webserver to accept incoming requests on that port! Note that you didn&#39;t have to do anything manually. The slot and plugs have been connected
+      automatically.</p>
+    <p>It&#39;s similar for the <strong>network</strong> interface which is needed by the command line tool to get access to the network.</p>
+    <p>On the contrary, the last line will show that the <strong>camera</strong> plug isn&#39;t connected to the core <strong>camera</strong> slot. Indeed, some interfaces will auto-connect on install (the ones considered safe, like having access to the
+      network), some won&#39;t (like accessing the user&#39;s camera). This default behavior is defined in snapd and the gadget snap of your device. You can refer to relevant tutorials on how to create a device and the gadget snap for overriding the default
+      policy of your device.</p>
+    <h2><strong>Let&#39;s check that in practice!</strong></h2>
+    <h3>Default behavior</h3>
+    <p>Running the command line tool after installing the snap gives us:</p>
+    <pre>$ chuck-norris-webserver.cli
 FILE SYSTEM: I see from /etc/os-release that I&#39;m running on Ubuntu Core 16.
 CAMERA [FAIL]: Urgh, even Chuck doesn&#39;t have access to the camera
 HOME ACCESS [FAIL]: What&#39;s happening? I can&#39;t even read your home directory.
 NETWORK [OK]: Chuck Norris doesn&#39;t pair program.</pre>
-<p>Indeed, we got a Chuck Norris quote from the network. However, access to the camera and some files in the home directory was denied. It&#39;s all making sense!</p>
-<h3><strong>Giving access to the camera</strong></h3>
-<p>Let&#39;s connect our <strong>camera plug</strong> to the <strong>ubuntu core slot</strong> before rerunning the application:</p>
-<pre>$ snap connect chuck-norris-webserver:camera :camera
-$ chuck-norris-webserver.cli 
+    <p>Indeed, we got a Chuck Norris quote from the network. However, access to the camera and some files in the home directory was denied. It&#39;s all making sense!</p>
+    <h3><strong>Giving access to the camera</strong></h3>
+    <p>Let&#39;s connect our <strong>camera plug</strong> to the <strong>ubuntu core slot</strong> before rerunning the application:</p>
+    <pre>$ snap connect chuck-norris-webserver:camera :camera
+$ chuck-norris-webserver.cli
 FILE SYSTEM: I see from /etc/os-release that I&#39;m running on Ubuntu Core 16.
 HOME ACCESS [FAIL]: What&#39;s happening? I can&#39;t even read your home directory.
 CAMERA [OK]: I can see you, you should smile more!
 NETWORK [OK]: No statement can catch the ChuckNorrisException.</pre>
-<p>Of course, we still have access to the network and the file access is a failure. However, we can see now that the camera is accessible to our command line tool! Smile ;)</p>
-<p>We can also check that via <code>snap interfaces</code>:</p>
-<pre>$ snap interfaces
+    <p>Of course, we still have access to the network and the file access is a failure. However, we can see now that the camera is accessible to our command line tool! Smile ;)</p>
+    <p>We can also check that via <code>snap interfaces</code>:</p>
+    <pre>$ snap interfaces
 Slot                              Plug
 :bluetooth-control                -
 :browser-support                  -
@@ -358,13 +379,14 @@ Slot                              Plug
 :network                          chuck-norris-webserver
 :network-bind                     chuck-norris-webserver
 [...]                           </pre>
-<p>That matches our expectations!</p>
-<aside class="special"><p>Note: the core snap can be abbreviated (also visible in the <code>snap interfaces</code> command) with directly using &#34;<strong>:&lt;slot-name&gt;</strong>&#34; instead of &#34;<strong>core:&lt;slot-name&gt;</strong>&#34;.</p>
-</aside>
-<h3><strong>Remove permissions from a snap</strong></h3>
-<p>Disconnecting the network plug for this snap will simply be done via:</p>
-<pre>$ snap disconnect chuck-norris-webserver:network
-$ chuck-norris-webserver.cli 
+    <p>That matches our expectations!</p>
+    <aside class="special">
+      <p>Note: the core snap can be abbreviated (also visible in the <code>snap interfaces</code> command) with directly using &#34;<strong>:&lt;slot-name&gt;</strong>&#34; instead of &#34;<strong>core:&lt;slot-name&gt;</strong>&#34;.</p>
+    </aside>
+    <h3><strong>Remove permissions from a snap</strong></h3>
+    <p>Disconnecting the network plug for this snap will simply be done via:</p>
+    <pre>$ snap disconnect chuck-norris-webserver:network
+$ chuck-norris-webserver.cli
 FILE SYSTEM: I see from /etc/os-release that I&#39;m running on Ubuntu Core 16.
 NETWORK [FAIL]: I can&#39;t connect to chucknorris.io. Offering you a network-related joke then: Chuck Norris&#39;s OSI network model has only one layer - Physical.
 HOME ACCESS [FAIL]: What&#39;s happening? I can&#39;t even read your home directory.
@@ -372,11 +394,11 @@ CAMERA [OK]: I can see you, you should smile more!
 $ snap interfaces
 [...]
 -                         chuck-norris-webserver:network</pre>
-<p>We thus have access from the command line tool to the camera, but not to the network anymore (and still don&#39;t have access to the home directory).</p>
-<h3>A note on multiple commands/services in the same snaps.</h3>
-<p>Our snap contains 2 elements: a services and a command. We just used the command here. You should know (even if you don&#39;t plan to craft any snaps... but you should!) that a different set of interfaces can be defined for each elements.</p>
-<p>For instance, the service and cli definition request access to different interfaces:</p>
-<pre> node-service:
+    <p>We thus have access from the command line tool to the camera, but not to the network anymore (and still don&#39;t have access to the home directory).</p>
+    <h3>A note on multiple commands/services in the same snaps.</h3>
+    <p>Our snap contains 2 elements: a services and a command. We just used the command here. You should know (even if you don&#39;t plan to craft any snaps... but you should!) that a different set of interfaces can be defined for each elements.</p>
+    <p>For instance, the service and cli definition request access to different interfaces:</p>
+    <pre> node-service:
     command: bin/chuck-norris-app
     daemon: simple
     restart-condition: always
@@ -385,34 +407,38 @@ $ snap interfaces
     command: bin/chuck-norris-cli
     plugs: [network, camera]
 </pre>
-<p>The service needs to listen (and write) to the network. The <strong>network-bind</strong> interface is suited for this.</p>
-<p>The command line application requests access to the <strong>network</strong> (as a reader, not a webserver listener) and to the user&#39;s <strong>camera</strong>.</p>
-<p>When you run snap interfaces, snap connect, snap disconnect, you only specify the snap name, meaning that it will connect/disconnect every applications from your snap which wants to use that interface.</p>
-<p>In practice, when we did run <code>snap connect chuck-norris-webserver:camera :camera</code>, we were only giving to the command line tool (and not the service!) access to the camera. The snap system is fine-grained!</p>
-<p>Once thing is left though, the home interface wasn&#39;t declared for this snap. We simulate here an interface that wouldn&#39;t exist yet and a snap needing even more access, or a snap that someone is developing, before fully confining it. How to progressively get there and disable complete confinement on a snap? This is where <strong>devmode</strong> is useful.</p>
-<h2><strong>devmode</strong></h2>
-<p>Something to clearly understand first is that you are giving any access your user has (or root access for daemons) to any snap you are installing in devmode! You are thus warned :) It&#39;s not something to take lightly if you are not the creator of the snap and don&#39;t know exactly what the application is doing.</p>
-<p>The good news is that you can&#39;t trigger devmode without knowing it!</p>
-<h3><strong>Purpose of devmode</strong></h3>
-<p>devmode is not for devil but developer mode! I guess that states clearly that it&#39;s for developers and beta testers that really trusts the developers.</p>
-<p>&#34;<strong>devmode</strong>&#34; lifts all restrictions and give all access to your snap: camera, files and such, as if you were running any application as your user. This isn&#39;t that different from installing software from anywhere which isn&#39;t trusted (ubuntu ppa, random website) and running it straight away! However, confined snaps give you confidence in the code you are running, so take advantage of it!</p>
-<h3><strong>Channel restrictions</strong></h3>
-<p>We did put some needed restrictions so that not all snaps are published innocently in devmode. The incentive is that devmode snaps can&#39;t be published in <strong>stable</strong> or <strong>candidate</strong> channels. They can only be found in <strong>beta or alpha channels</strong> (as they are for developers and testers!), and thus, aren&#39;t listed in <code>snap find</code> by default.</p>
-<h3><strong>Installing a snap in devmode</strong></h3>
-<p>You need to explicitly declare you are installing a snap in devmode. Snaps in devmode won&#39;t install unless the <code>--devmode</code> flag is set.</p>
-<p>For instance, face-detection-demo, in the beta channel, is a devmode snap. You can&#39;t install it normally:</p>
-<pre>$ snap install --beta face-detection-demo
+    <p>The service needs to listen (and write) to the network. The <strong>network-bind</strong> interface is suited for this.</p>
+    <p>The command line application requests access to the <strong>network</strong> (as a reader, not a webserver listener) and to the user&#39;s <strong>camera</strong>.</p>
+    <p>When you run snap interfaces, snap connect, snap disconnect, you only specify the snap name, meaning that it will connect/disconnect every applications from your snap which wants to use that interface.</p>
+    <p>In practice, when we did run <code>snap connect chuck-norris-webserver:camera :camera</code>, we were only giving to the command line tool (and not the service!) access to the camera. The snap system is fine-grained!</p>
+    <p>Once thing is left though, the home interface wasn&#39;t declared for this snap. We simulate here an interface that wouldn&#39;t exist yet and a snap needing even more access, or a snap that someone is developing, before fully confining it. How to
+      progressively get there and disable complete confinement on a snap? This is where <strong>devmode</strong> is useful.</p>
+    <h2><strong>devmode</strong></h2>
+    <p>Something to clearly understand first is that you are giving any access your user has (or root access for daemons) to any snap you are installing in devmode! You are thus warned :) It&#39;s not something to take lightly if you are not the creator
+      of the snap and don&#39;t know exactly what the application is doing.</p>
+    <p>The good news is that you can&#39;t trigger devmode without knowing it!</p>
+    <h3><strong>Purpose of devmode</strong></h3>
+    <p>devmode is not for devil but developer mode! I guess that states clearly that it&#39;s for developers and beta testers that really trusts the developers.</p>
+    <p>&#34;<strong>devmode</strong>&#34; lifts all restrictions and give all access to your snap: camera, files and such, as if you were running any application as your user. This isn&#39;t that different from installing software from anywhere which isn&#39;t
+      trusted (ubuntu ppa, random website) and running it straight away! However, confined snaps give you confidence in the code you are running, so take advantage of it!</p>
+    <h3><strong>Channel restrictions</strong></h3>
+    <p>We did put some needed restrictions so that not all snaps are published innocently in devmode. The incentive is that devmode snaps can&#39;t be published in <strong>stable</strong> or <strong>candidate</strong> channels. They can only be found in
+      <strong>beta or alpha channels</strong> (as they are for developers and testers!), and thus, aren&#39;t listed in <code>snap find</code> by default.</p>
+    <h3><strong>Installing a snap in devmode</strong></h3>
+    <p>You need to explicitly declare you are installing a snap in devmode. Snaps in devmode won&#39;t install unless the <code>--devmode</code> flag is set.</p>
+    <p>For instance, face-detection-demo, in the beta channel, is a devmode snap. You can&#39;t install it normally:</p>
+    <pre>$ snap install --beta face-detection-demo
 error: snap &#34;face-detection-demo&#34; requires devmode or confinement override</pre>
-<p>And so, installing it would require:</p>
-<pre>$ snap install --devmode --beta face-detection-demo
+    <p>And so, installing it would require:</p>
+    <pre>$ snap install --devmode --beta face-detection-demo
 face-detection-demo (beta) 1.0 from &#39;didrocks&#39; installed</pre>
-<p>You can check that the snap is installed in devmode:</p>
-<pre>$ snap list
+    <p>You can check that the snap is installed in devmode:</p>
+    <pre>$ snap list
 Name                    Version  Rev   Developer  Notes
 [...]
 face-detection-demo     1.0      52    didrocks   devmode</pre>
-<p>However, you can install or reinstall a confined snap in devmode easily:</p>
-<pre>$ snap remove chuck-norris-webserver
+    <p>However, you can install or reinstall a confined snap in devmode easily:</p>
+    <pre>$ snap remove chuck-norris-webserver
 chuck-norris-webserver removed
 $ snap install --devmode chuck-norris-webserver
 chuck-norris-webserver (stable) 1.0 from &#39;didrocks&#39; installed
@@ -420,8 +446,8 @@ $ snap list
 Name                    Version  Rev   Developer  Notes
 [...]
 chuck-norris-webserver  1.0.0    10               devmode</pre>
-<p>You will notice that snap interfaces still shows the default auto-connections and permissions:</p>
-<pre>$ snap interfaces
+    <p>You will notice that snap interfaces still shows the default auto-connections and permissions:</p>
+    <pre>$ snap interfaces
 Slot                      Plug
 [...]
 :camera                   -
@@ -432,19 +458,22 @@ Slot                      Plug
 :network-control          -
 [...]
 -                         chuck-norris-webserver:camera</pre>
-<p>        However, they don&#39;t matter anymore, as every access is now granted to the system:</p>
-<pre>$ chuck-norris-webserver.cli 
+    <p> However, they don&#39;t matter anymore, as every access is now granted to the system:</p>
+    <pre>$ chuck-norris-webserver.cli
 FILE SYSTEM: I see from /etc/os-release that I&#39;m running on Ubuntu Core 16.
 HOME ACCESS [OK]: My power enables me to see that you have .hidden in your home directory. I&#39;m unstoppable!
 CAMERA [OK]: I can see you, you should smile more!
 NETWORK [OK]: When Chuck Norris break the build, you can&#39;t fix it, because there is not a single line of code left.</pre>
-<p>Even if no plug was defined to access the home directory, it will now list one of your file to prove it has access to it! Same with the non-connected camera plug, keep smiling!</p>
-<p>This is great, but that&#39;s not all! We need to talk about files!</p>
-<h2><strong>File system structures</strong></h2>
-<p>Snaps are, at the core, relocatable: meaning they embed all needed libraries and files. Both fully confined and devmode confinement modes are not seeing the exact file system. It means that the root <strong>&#34;/&#34;</strong> file system they are seeing isn&#39;t the one you have on your host. This &#34;/&#34; and everything under it is coming from the core snap we mentioned in previous tutorials. It means that if you have for instance firefox installed on your machine, the snap application will never see the firefox binaries, icons, its libraries and such. It&#39;s like if it was running on a small virtual machine!</p>
-<p>You probably noticed that on both confined and devmode snaps, <code>chuck-norris-webserver.cli</code> was printing &#34;<code>FILE SYSTEM: I see from /etc/os-release that I&#39;m running on Ubuntu Core 16.</code>&#34;. This is the case even if you are running that on any laptop! Indeed, the <code>/etc/os-release</code> file is the one coming from the core snap.</p>
-<p>Let&#39;s have a look at this file on your machine:</p>
-<pre>$ cat /etc/os-release
+    <p>Even if no plug was defined to access the home directory, it will now list one of your file to prove it has access to it! Same with the non-connected camera plug, keep smiling!</p>
+    <p>This is great, but that&#39;s not all! We need to talk about files!</p>
+    <h2><strong>File system structures</strong></h2>
+    <p>Snaps are, at the core, relocatable: meaning they embed all needed libraries and files. Both fully confined and devmode confinement modes are not seeing the exact file system. It means that the root <strong>&#34;/&#34;</strong> file system they are
+      seeing isn&#39;t the one you have on your host. This &#34;/&#34; and everything under it is coming from the core snap we mentioned in previous tutorials. It means that if you have for instance firefox installed on your machine, the snap application
+      will never see the firefox binaries, icons, its libraries and such. It&#39;s like if it was running on a small virtual machine!</p>
+    <p>You probably noticed that on both confined and devmode snaps, <code>chuck-norris-webserver.cli</code> was printing &#34;<code>FILE SYSTEM: I see from /etc/os-release that I&#39;m running on Ubuntu Core 16.</code>&#34;. This is the case even if you
+      are running that on any laptop! Indeed, the <code>/etc/os-release</code> file is the one coming from the core snap.</p>
+    <p>Let&#39;s have a look at this file on your machine:</p>
+    <pre>$ cat /etc/os-release
 Name=&#34;Ubuntu&#34;
 VERSION=&#34;16.04.2 LTS (Xenial Xerus)&#34;
 ID=ubuntu
@@ -452,84 +481,95 @@ ID_LIKE=debian
 PRETTY_NAME=&#34;Ubuntu 16.04.2 LTS&#34;
 VERSION_ID=&#34;16.04&#34;
 [...]</pre>
-<p>We are interesting in particular in the <strong>PRETTY_NAME</strong> line as this is what <code>chuck-norris-webserver.cli</code> is printing. Note that it differs!</p>
-<aside class="special"><p>Your <code>os-release</code> content will obviously differ between different distributions and version. Of course, if you are using Ubuntu Core, you may have the exact os-release file than in the snap as it&#39;s using the core snap for populating &#34;/&#34;.</p>
-</aside>
-<p>And here enters the classic snap!</p>
-<h2><strong>Classic snap</strong></h2>
-<p>What if your snap can&#39;t live in a lying world? What if it needs system on libraries that can&#39;t be relocated? Or also, what if the developer wanted to use a transition period to move to awesome snaps as quickly as possible?</p>
-<p>Free the snap, <strong>Let / be /</strong> I hear! And that&#39;s exactly why <strong>classic</strong> snaps exist! A classic snap sees the real host machine world, with its system libraries, installed (or absent) packages. There is a risk of course: as with just uncompressing an archive and running its program, some dependencies may be missing and such. Also, confinement is turned off. You can really see <strong>classic</strong> being &#34;non relocated devmode snaps&#34;. Classics snap can be published in the <strong>stable</strong> channel, though.</p>
-<aside class="special"><p>Classic snaps can only be installed on a traditional desktop system, not on a headless distribution like Ubuntu Core. Those need to state clearly that they are classic snaps, and they can&#39;t be installed in devmode or confined. Indeed, some intricacies makes the two modes (relocatable vs non relocatable) incompatible with each others.</p>
-</aside>
-<p>Let&#39;s install and run the same snap than before, but a version declaring <code>confinement: classic</code>.</p>
-<pre>$ snap install --classic chuck-norris-webserver-classic
-$ chuck-norris-webserver-classic.cli 
+    <p>We are interesting in particular in the <strong>PRETTY_NAME</strong> line as this is what <code>chuck-norris-webserver.cli</code> is printing. Note that it differs!</p>
+    <aside class="special">
+      <p>Your <code>os-release</code> content will obviously differ between different distributions and version. Of course, if you are using Ubuntu Core, you may have the exact os-release file than in the snap as it&#39;s using the core snap for populating
+        &#34;/&#34;.</p>
+    </aside>
+    <p>And here enters the classic snap!</p>
+    <h2><strong>Classic snap</strong></h2>
+    <p>What if your snap can&#39;t live in a lying world? What if it needs system on libraries that can&#39;t be relocated? Or also, what if the developer wanted to use a transition period to move to awesome snaps as quickly as possible?</p>
+    <p>Free the snap, <strong>Let / be /</strong> I hear! And that&#39;s exactly why <strong>classic</strong> snaps exist! A classic snap sees the real host machine world, with its system libraries, installed (or absent) packages. There is a risk of course:
+      as with just uncompressing an archive and running its program, some dependencies may be missing and such. Also, confinement is turned off. You can really see <strong>classic</strong> being &#34;non relocated devmode snaps&#34;. Classics snap can
+      be published in the <strong>stable</strong> channel, though.</p>
+    <aside class="special">
+      <p>Classic snaps can only be installed on a traditional desktop system, not on a headless distribution like Ubuntu Core. Those need to state clearly that they are classic snaps, and they can&#39;t be installed in devmode or confined. Indeed, some intricacies
+        makes the two modes (relocatable vs non relocatable) incompatible with each others.</p>
+    </aside>
+    <p>Let&#39;s install and run the same snap than before, but a version declaring <code>confinement: classic</code>.</p>
+    <pre>$ snap install --classic chuck-norris-webserver-classic
+$ chuck-norris-webserver-classic.cli
 FILE SYSTEM: I see from /etc/os-release that I&#39;m running on Ubuntu 16.04.2 LTS.
 HOME ACCESS [OK]: My power enables me to see that you have .hidden in your home directory. I&#39;m unstoppable!
 CAMERA [OK]: I can see you, you should smile more!
 NETWORK [OK]: When Chuck Norris break the build, you can&#39;t fix it, because there is not a single line of code left.</pre>
-<p>This snap confirms that it can see the original (host) file system via <code>FILE SYSTEM: I see from /etc/os-release that I&#39;m running on Ubuntu 16.04.2 LTS.</code> Also, the snap has access to everything (network, camera, and home directory), confirming the fact that it&#39;s an augmented devmode snap.</p>
-<h2><strong>The developer corner</strong></h2>
-<p>What does it mean for developers? If you want to snap a complex application and you don&#39;t want to dive right away into making your application relocatable, you:</p>
-<ol type="1" start="1">
-<li>can start with a classic snap, which should be easy to craft.</li>
-<li>then make your snap relocatable, and include all its dependencies. You can now turn on devmode! Remember, though, that you can&#39;t publish it to the stable channel.</li>
-<li>finally, confine your application, turn it to strict mode and publish to the stable channel!</li>
-</ol>
-<p>This gives you a nice and progressive workflow.</p>
-<p>You can remove the 2 snaps now and reinstall one of them confined with:</p>
-<pre>$ snap remove chuck-norris-webserver-classic chuck-norris-webserver
+    <p>This snap confirms that it can see the original (host) file system via <code>FILE SYSTEM: I see from /etc/os-release that I&#39;m running on Ubuntu 16.04.2 LTS.</code> Also, the snap has access to everything (network, camera, and home directory),
+      confirming the fact that it&#39;s an augmented devmode snap.</p>
+    <h2><strong>The developer corner</strong></h2>
+    <p>What does it mean for developers? If you want to snap a complex application and you don&#39;t want to dive right away into making your application relocatable, you:</p>
+    <ol type="1" start="1">
+      <li>can start with a classic snap, which should be easy to craft.</li>
+      <li>then make your snap relocatable, and include all its dependencies. You can now turn on devmode! Remember, though, that you can&#39;t publish it to the stable channel.</li>
+      <li>finally, confine your application, turn it to strict mode and publish to the stable channel!</li>
+    </ol>
+    <p>This gives you a nice and progressive workflow.</p>
+    <p>You can remove the 2 snaps now and reinstall one of them confined with:</p>
+    <pre>$ snap remove chuck-norris-webserver-classic chuck-norris-webserver
 chuck-norris-webserver-classic removed
 chuck-norris-webserver removed
 $ snap install chuck-norris-webserver
 chuck-norris-webserver (stable) 1.0 from &#39;didrocks&#39; installed</pre>
-<h2><strong>Closing up</strong></h2>
-<p>A final note is that when you are connecting interfaces, those are only applied on command or service startup. You thus need to restart or relaunch a command to see those new capabilities apply. Launching a command or program is trivial. Restarting a service is a little bit more complex and that&#39;s exactly what we are going to do next!</p>
+    <h2><strong>Closing up</strong></h2>
+    <p>A final note is that when you are connecting interfaces, those are only applied on command or service startup. You thus need to restart or relaunch a command to see those new capabilities apply. Launching a command or program is trivial. Restarting
+      a service is a little bit more complex and that&#39;s exactly what we are going to do next!</p>
 
 
   </google-codelab-step>
-  
+
   <google-codelab-step label="Availability, logs &amp; states in snaps &amp; services" duration="6">
-    <aside class="special"><p><strong>Lost or starting from here?</strong></p>
-<p>You just need to type in a terminal &#34;<code>snap install chuck-norris-webserver</code>&#34; as this is the he snap we will need.</p>
-</aside>
-<p>Before jumping right away into the logs, let&#39;s look at snap states and availability on the system.</p>
-<h2><strong>Snap availability on the system</strong></h2>
-<p>Once a snap is installed, this means:</p>
-<ul>
-<li>the snap commands are available in the user&#39;s <code>$PATH</code>.</li>
-<li>the services included in the snap are all started. They are simply started/stopped on system startup and shutdown. Depending on their configuration, they can restart automatically in case of crashes.</li>
-</ul>
-<p>Not having a command running is easy: just don&#39;t run it or stop it if it&#39;s already started! But what about services?</p>
-<p>You can enable or disable snaps on the system. This means that a disabled snap won&#39;t have any command accessible to any users on the system, nor services started at system startup. From a user perspective, it&#39;s like the snap simply doesn&#39;t exist. However, it&#39;s still installed: binary files, assets and associated data are still present, and the snap is kept up to date. Making it available again is just a question of running the <code>enable</code> command. No extra download, nothing required!</p>
-<p>The chuck norris web server is running on port 80, so heading to <a href="http://localhost" target="_blank">http://localhost</a> will lead you to:</p>
-<p><img style="max-width: 624.00px" src="CODELABURL/img/e2bd8c114dbb80c5.png"></p>
-<p>All of this is great! So, let&#39;s disable it:</p>
-<pre>$ snap disable chuck-norris-webserver
+    <aside class="special">
+      <p><strong>Lost or starting from here?</strong></p>
+      <p>You just need to type in a terminal &#34;<code>snap install chuck-norris-webserver</code>&#34; as this is the he snap we will need.</p>
+    </aside>
+    <p>Before jumping right away into the logs, let&#39;s look at snap states and availability on the system.</p>
+    <h2><strong>Snap availability on the system</strong></h2>
+    <p>Once a snap is installed, this means:</p>
+    <ul>
+      <li>the snap commands are available in the user&#39;s <code>$PATH</code>.</li>
+      <li>the services included in the snap are all started. They are simply started/stopped on system startup and shutdown. Depending on their configuration, they can restart automatically in case of crashes.</li>
+    </ul>
+    <p>Not having a command running is easy: just don&#39;t run it or stop it if it&#39;s already started! But what about services?</p>
+    <p>You can enable or disable snaps on the system. This means that a disabled snap won&#39;t have any command accessible to any users on the system, nor services started at system startup. From a user perspective, it&#39;s like the snap simply doesn&#39;t
+      exist. However, it&#39;s still installed: binary files, assets and associated data are still present, and the snap is kept up to date. Making it available again is just a question of running the <code>enable</code> command. No extra download, nothing
+      required!</p>
+    <p>The chuck norris web server is running on port 80, so heading to <a href="http://localhost" target="_blank">http://localhost</a> will lead you to:</p>
+    <p><img style="max-width: 624.00px" src="CODELABURL/img/e2bd8c114dbb80c5.png"></p>
+    <p>All of this is great! So, let&#39;s disable it:</p>
+    <pre>$ snap disable chuck-norris-webserver
 chuck-norris-webserver disabled</pre>
-<p>Heading to <a href="http://localhost" target="_blank">http://localhost</a> will now error out as no webserver is listening on port 80 anymore. Also, the command is now unavailable:</p>
-<pre>$ chuck-norris-webserver.cli
+    <p>Heading to <a href="http://localhost" target="_blank">http://localhost</a> will now error out as no webserver is listening on port 80 anymore. Also, the command is now unavailable:</p>
+    <pre>$ chuck-norris-webserver.cli
 chuck-norris-webserver.cli: command not found</pre>
-<p>All of this is like the snap never existed on the system. Though, you can see that reenabling it is really quick:</p>
-<pre>$ snap enable chuck-norris-webserver
+    <p>All of this is like the snap never existed on the system. Though, you can see that reenabling it is really quick:</p>
+    <pre>$ snap enable chuck-norris-webserver
 chuck-norris-webserver enabled</pre>
-<p>If you head over back to <a href="http://localhost" target="_blank">http://localhost</a>, you can confirm that the service is now running again. Similarly, the <code>chuck-norris-webserver.cli</code> command is also available.</p>
-<p>This is handy, but this is all or nothing. Sometimes, we want to stop a service temporarily, without disabling entirely a snap, or restarting it and so on. We also want access to its logs. Let&#39;s look at some service-related commands!</p>
-<h2>Logs and temporary<strong> a service state</strong></h2>
-<h3><strong>How a service file is generated</strong></h3>
-<p>First, we need to understand that snapd is using <strong>systemd</strong> service management under the hood. The generated service filename that you can find in <code>/etc/systemd/system</code> is using the following convention:</p>
-<p>&#34;<strong>snap.&lt;snap_name&gt;.&lt;app_name&gt;.service</strong>&#34;</p>
-<p>Knowing that the service file definition in our chuck-norris-webserver snap is:</p>
-<pre> node-service:
+    <p>If you head over back to <a href="http://localhost" target="_blank">http://localhost</a>, you can confirm that the service is now running again. Similarly, the <code>chuck-norris-webserver.cli</code> command is also available.</p>
+    <p>This is handy, but this is all or nothing. Sometimes, we want to stop a service temporarily, without disabling entirely a snap, or restarting it and so on. We also want access to its logs. Let&#39;s look at some service-related commands!</p>
+    <h2>Logs and temporary<strong> a service state</strong></h2>
+    <h3><strong>How a service file is generated</strong></h3>
+    <p>First, we need to understand that snapd is using <strong>systemd</strong> service management under the hood. The generated service filename that you can find in <code>/etc/systemd/system</code> is using the following convention:</p>
+    <p>&#34;<strong>snap.&lt;snap_name&gt;.&lt;app_name&gt;.service</strong>&#34;</p>
+    <p>Knowing that the service file definition in our chuck-norris-webserver snap is:</p>
+    <pre> node-service:
     command: bin/chuck-norris-app
     daemon: simple
     restart-condition: always
     plugs: [network-bind]</pre>
-<p>it will be named in our present case: <strong>snap.chuck-norris-webserver.node-service.service</strong>.</p>
-<p>We can thus use traditional <strong>systemd</strong> tools, optionally omitting the final .service name, for managing it.</p>
-<h3>Checking service status and last logs:</h3>
-<p><code>systemctl</code> with the <code>status</code> command gives us some hints:</p>
-<pre>$ systemctl status -l snap.chuck-norris-webserver.node-service
+    <p>it will be named in our present case: <strong>snap.chuck-norris-webserver.node-service.service</strong>.</p>
+    <p>We can thus use traditional <strong>systemd</strong> tools, optionally omitting the final .service name, for managing it.</p>
+    <h3>Checking service status and last logs:</h3>
+    <p><code>systemctl</code> with the <code>status</code> command gives us some hints:</p>
+    <pre>$ systemctl status -l snap.chuck-norris-webserver.node-service
 ● snap.chuck-norris-webserver.node-service.service - Service for snap application chuck-norris-webserver.node-service
    Loaded: loaded (/etc/systemd/system/snap.chuck-norris-webserver.node-service.service; enabled; vendor preset: enabled)
    Active: active (running) since mar. 2016-11-15 14:40:11 CET; 17min ago
@@ -543,10 +583,10 @@ chuck-norris-webserver enabled</pre>
 nov. 15 14:40:11 tidus systemd[1]: Started Service for snap application chuck-norris-webserver.node-service.
 nov. 15 14:40:11 tidus snap[14410]: Server listening on: http://localhost:80
 nov. 15 14:47:35 tidus snap[14410]: Quoted http://api.chucknorris.io/jokes/ijpnw0birv-ogszti_wuag</pre>
-<p>From the output, you can see the service has been <strong>active</strong> for 17 minutes, you can track its process information as well as latest logs.</p>
-<h3>Stopping and starting a service:</h3>
-<p><code>systemctl</code> accepts a <code>stop</code> command. We can then check the service status:</p>
-<pre>$ sudo systemctl stop snap.chuck-norris-webserver.node-service
+    <p>From the output, you can see the service has been <strong>active</strong> for 17 minutes, you can track its process information as well as latest logs.</p>
+    <h3>Stopping and starting a service:</h3>
+    <p><code>systemctl</code> accepts a <code>stop</code> command. We can then check the service status:</p>
+    <pre>$ sudo systemctl stop snap.chuck-norris-webserver.node-service
 $ systemctl status -l snap.chuck-norris-webserver.node-service
 ● snap.chuck-norris-webserver.node-service.service - Service for snap application chuck-norris-webserver.node-service
    Loaded: loaded (/etc/systemd/system/snap.chuck-norris-webserver.node-service.service; enabled; vendor preset: enabled)
@@ -559,11 +599,13 @@ nov. 15 14:40:11 tidus snap[14410]: Server listening on: http://localhost:80
 nov. 15 14:47:35 tidus snap[14410]: Quoted http://api.chucknorris.io/jokes/ijpnw0birv-ogszti_wuag
 nov. 15 15:03:11 tidus systemd[1]: Stopping Service for snap application chuck-norris-webserver.node-service...
 nov. 15 15:03:11 tidus systemd[1]: Stopped Service for snap application chuck-norris-webserver.node-service.</pre>
-<p>The service is enabled (it will start at next reboot), but it&#39;s stopped (<strong>inactive</strong>). It got a <strong>TERM</strong> signal (normal stopping request that we issued via <code>systemctl</code>). We can as well see the latest log outputs from the service, which is particularly handy in case of a service crashing or misbehaving for instance.</p>
-<aside class="special"><p><strong>Small tip:</strong> systemd default behavior will try 3 times to launch a crashing service at startup (in the very few seconds after it starts) and will give up afterwards to not overload your CPU.</p>
-</aside>
-<p>Similarly to <code>stop</code>, we can use the <code>start</code> command for <code>systemctl</code> to restart it:</p>
-<pre>$ sudo systemctl start snap.chuck-norris-webserver.node-service
+    <p>The service is enabled (it will start at next reboot), but it&#39;s stopped (<strong>inactive</strong>). It got a <strong>TERM</strong> signal (normal stopping request that we issued via <code>systemctl</code>). We can as well see the latest log outputs
+      from the service, which is particularly handy in case of a service crashing or misbehaving for instance.</p>
+    <aside class="special">
+      <p><strong>Small tip:</strong> systemd default behavior will try 3 times to launch a crashing service at startup (in the very few seconds after it starts) and will give up afterwards to not overload your CPU.</p>
+    </aside>
+    <p>Similarly to <code>stop</code>, we can use the <code>start</code> command for <code>systemctl</code> to restart it:</p>
+    <pre>$ sudo systemctl start snap.chuck-norris-webserver.node-service
 $ systemctl status -l snap.chuck-norris-webserver.node-service
 ● snap.chuck-norris-webserver.node-service.service - Service for snap application chuck-norris-webserver.node-service
    Loaded: loaded (/etc/systemd/system/snap.chuck-norris-webserver.node-service.service; enabled; vendor preset: enabled)
@@ -577,10 +619,10 @@ $ systemctl status -l snap.chuck-norris-webserver.node-service
 
 nov. 15 15:12:42 tidus systemd[1]: Started Service for snap application chuck-norris-webserver.node-service.
 nov. 15 15:12:43 tidus snap[15622]: Server listening on: http://localhost:80</pre>
-<p>Of course, there is a <code>systemctl restart</code> command as well!</p>
-<h3>Follow logs live:</h3>
-<p>We are going to use <code>journalctl</code> for this. Using the <code>-u</code> option will filter the output on a service name:</p>
-<pre>$ sudo journalctl -fu snap.chuck-norris-webserver.node-service
+    <p>Of course, there is a <code>systemctl restart</code> command as well!</p>
+    <h3>Follow logs live:</h3>
+    <p>We are going to use <code>journalctl</code> for this. Using the <code>-u</code> option will filter the output on a service name:</p>
+    <pre>$ sudo journalctl -fu snap.chuck-norris-webserver.node-service
 -- Logs begin at mer. 2016-01-13 14:59:21 CET. --
 nov. 15 14:40:11 tidus snap[14410]: Server listening on: http://localhost:80
 nov. 15 14:47:35 tidus snap[14410]: Quoted http://api.chucknorris.io/jokes/ijpnw0birv-ogszti_wuag
@@ -592,81 +634,95 @@ nov. 15 15:16:14 tidus snap[15622]: Quoted http://api.chucknorris.io/jokes/gll-v
 nov. 15 15:16:18 tidus snap[15622]: Quoted http://api.chucknorris.io/jokes/qwv-rz6xtjmhiayprtgnvw
 nov. 15 15:16:20 tidus snap[15622]: Quoted http://api.chucknorris.io/jokes/ag_6paerrkg-mxfjjqw4ba
 nov. 15 15:17:53 tidus snap[15622]: Quoted http://api.chucknorris.io/jokes/elgv2wkvt8ioag6xywykbq</pre>
-<p>You can omit <strong>-f</strong> to not follow the live log (meaning, new inputs are printed as they come): it will only prints messages that were already logged.</p>
-<aside class="special"><p><strong>Small tip:</strong> sometimes, multiple services coordinate to provide a functionality, or a service impacts some system services like network-manager. To get all logs and follow them live, just don&#39;t provide the <strong>-u</strong> option with the service name. For instance, <code>journalctl -f</code> will provide you all logs, lively printed, from your system, including your services.</p>
-</aside>
-<p>You will note that we mostly focused on services here. As you probably know,  traditional commands only prints to stdin, stdout and stderr their own output! However, they might store their logs in writeable paths as well. We will mention them in a later step. Before going there, let&#39;s talk about snap configuration!</p>
+    <p>You can omit <strong>-f</strong> to not follow the live log (meaning, new inputs are printed as they come): it will only prints messages that were already logged.</p>
+    <aside class="special">
+      <p><strong>Small tip:</strong> sometimes, multiple services coordinate to provide a functionality, or a service impacts some system services like network-manager. To get all logs and follow them live, just don&#39;t provide the <strong>-u</strong>        option with the service name. For instance, <code>journalctl -f</code> will provide you all logs, lively printed, from your system, including your services.</p>
+    </aside>
+    <p>You will note that we mostly focused on services here. As you probably know, traditional commands only prints to stdin, stdout and stderr their own output! However, they might store their logs in writeable paths as well. We will mention them in a
+      later step. Before going there, let&#39;s talk about snap configuration!</p>
 
 
   </google-codelab-step>
-  
+
   <google-codelab-step label="Managing snap configuration" duration="5">
-    <aside class="special"><p><strong>Lost or starting from here?</strong></p>
-<p>You just need to type in a terminal &#34;<code>snap install chuck-norris-webserver</code>&#34; as this is the snap we will need.</p>
-</aside>
-<p>Snaps can store and manage configurations that they can use and reapply after each update.</p>
-<p>There are a number of situations where snapd needs to notify a snap that something has happened. For example, when a snap is upgraded, it may need to run some sort of migration on the previous version&#39;s data in order to make it consumable by the new version. Or when an interface is connected or disconnected, the snap might need to obtain attributes specific to that connection. These types of situations are handled by hooks.</p>
-<p>You will see that the notions there are really simple both from a simple user standpoint and for administrators.</p>
-<h2><strong>Hooks</strong></h2>
-<p>A hook is a simple executable (it could be a shell script, a python program or a native compiled binary!) which is shipped with a snap to control easily and programmatically its behavior. It&#39;s thus up to the snap to ship some hooks that it can manage. To be clear, if your snap doesn&#39;t have some hook support, you can&#39;t manage its configuration that way!</p>
-<p>Multiple types of hooks are going to be supported by snapd.</p>
-<h3><strong>Configure hooks</strong></h3>
-<p>Configure hooks are one of the hook types supported by snapd. The <code>configure</code> hooks are called upon initial install, upgrade, and whenever the user requests a configuration change via the <code>snap set</code> command.</p>
-<h2>Let&#39;s play with this!</h2>
-<p>Let&#39;s go back again to our famous <strong>chuck-norris-webserver</strong> snap! This one has a configure hook and server-side code detecting when some values are changed.</p>
-<p>Let&#39;s load it again first, head over to <a href="http://localhost" target="_blank">http://localhost</a>:</p>
-<p><img style="max-width: 624.00px" src="CODELABURL/img/e2bd8c114dbb80c5.png"></p>
-<p>Our page title is &#34;<strong>My local chuck norris webserver</strong>&#34; and the port it&#39;s listening on it the default http port (<strong>80</strong>).</p>
-<h3><strong>Setting one configure value</strong></h3>
-<p>To change one of these properties, we are going to use the <code>snap set</code> command:</p>
-<pre>$ snap set chuck-norris-webserver title=&#34;I can bind Chuck Norris to my will&#34;</pre>
-<p>If you refresh the page, you will see that the new configuration has been picked by the web server and is now our default title page.</p>
-<p>Another configuration option that is available in that snap is changing the network port that the service is listening on:</p>
-<pre>$ snap set chuck-norris-webserver port=81</pre>
-<p>Refreshing the page will give a connection refused error, and you need to head over to <a href="http://localhost:81" target="_blank">http://localhost:81</a> now! Notice that the modified title is still present. It means that snapd is storing any modified configuration values for us. Sweet :)</p>
-<p>Note that you can change multiple configurations at the same time:</p>
-<pre>$ snap set chuck-norris-webserver port=82 title=&#34;My other super title&#34;</pre>
-<p>In any case, snapd will store the configuration and run the configure hook once so that it can retrieved any configured values.</p>
-<p>To summarize, the general syntax is:</p>
-<p>snap set &lt;snap-name&gt; key1=value1 [key2=value2...]</p>
-<aside class="special"><p><strong>Note:</strong> it&#39;s up to the application/service to pick up new values dynamically and handling them. Our examples snap does that, but a lot of applications are only reading values on startup and you will need to restart the service so that they are taking effect.</p>
-<p>For instance, chuck-norris-webserver is using the inotify kernel feature to detect and pick up any modified values.</p>
-</aside>
-<h3><br><strong>Fetching modified values</strong></h3>
-<p>You can see your current snap stored config values via:</p>
-<pre>$ snap get chuck-norris-webserver port
+    <aside class="special">
+      <p><strong>Lost or starting from here?</strong></p>
+      <p>You just need to type in a terminal &#34;<code>snap install chuck-norris-webserver</code>&#34; as this is the snap we will need.</p>
+    </aside>
+    <p>Snaps can store and manage configurations that they can use and reapply after each update.</p>
+    <p>There are a number of situations where snapd needs to notify a snap that something has happened. For example, when a snap is upgraded, it may need to run some sort of migration on the previous version&#39;s data in order to make it consumable by the
+      new version. Or when an interface is connected or disconnected, the snap might need to obtain attributes specific to that connection. These types of situations are handled by hooks.</p>
+    <p>You will see that the notions there are really simple both from a simple user standpoint and for administrators.</p>
+    <h2><strong>Hooks</strong></h2>
+    <p>A hook is a simple executable (it could be a shell script, a python program or a native compiled binary!) which is shipped with a snap to control easily and programmatically its behavior. It&#39;s thus up to the snap to ship some hooks that it can
+      manage. To be clear, if your snap doesn&#39;t have some hook support, you can&#39;t manage its configuration that way!</p>
+    <p>Multiple types of hooks are going to be supported by snapd.</p>
+    <h3><strong>Configure hooks</strong></h3>
+    <p>Configure hooks are one of the hook types supported by snapd. The <code>configure</code> hooks are called upon initial install, upgrade, and whenever the user requests a configuration change via the <code>snap set</code> command.</p>
+    <h2>Let&#39;s play with this!</h2>
+    <p>Let&#39;s go back again to our famous <strong>chuck-norris-webserver</strong> snap! This one has a configure hook and server-side code detecting when some values are changed.</p>
+    <p>Let&#39;s load it again first, head over to <a href="http://localhost" target="_blank">http://localhost</a>:</p>
+    <p><img style="max-width: 624.00px" src="CODELABURL/img/e2bd8c114dbb80c5.png"></p>
+    <p>Our page title is &#34;<strong>My local chuck norris webserver</strong>&#34; and the port it&#39;s listening on it the default http port (<strong>80</strong>).</p>
+    <h3><strong>Setting one configure value</strong></h3>
+    <p>To change one of these properties, we are going to use the <code>snap set</code> command:</p>
+    <pre>$ snap set chuck-norris-webserver title=&#34;I can bind Chuck Norris to my will&#34;</pre>
+    <p>If you refresh the page, you will see that the new configuration has been picked by the web server and is now our default title page.</p>
+    <p>Another configuration option that is available in that snap is changing the network port that the service is listening on:</p>
+    <pre>$ snap set chuck-norris-webserver port=81</pre>
+    <p>Refreshing the page will give a connection refused error, and you need to head over to <a href="http://localhost:81" target="_blank">http://localhost:81</a> now! Notice that the modified title is still present. It means that snapd is storing any modified
+      configuration values for us. Sweet :)</p>
+    <p>Note that you can change multiple configurations at the same time:</p>
+    <pre>$ snap set chuck-norris-webserver port=82 title=&#34;My other super title&#34;</pre>
+    <p>In any case, snapd will store the configuration and run the configure hook once so that it can retrieved any configured values.</p>
+    <p>To summarize, the general syntax is:</p>
+    <p>snap set &lt;snap-name&gt; key1=value1 [key2=value2...]</p>
+    <aside class="special">
+      <p><strong>Note:</strong> it&#39;s up to the application/service to pick up new values dynamically and handling them. Our examples snap does that, but a lot of applications are only reading values on startup and you will need to restart the service
+        so that they are taking effect.</p>
+      <p>For instance, chuck-norris-webserver is using the inotify kernel feature to detect and pick up any modified values.</p>
+    </aside>
+    <h3><br><strong>Fetching modified values</strong></h3>
+    <p>You can see your current snap stored config values via:</p>
+    <pre>$ snap get chuck-norris-webserver port
 82</pre>
-<p>As with <code>snap set</code>, you can check multiple config values at once (and they will be returned in a json-style format):</p>
-<pre>$ snap get chuck-norris-webserver port title
+    <p>As with <code>snap set</code>, you can check multiple config values at once (and they will be returned in a json-style format):</p>
+    <pre>$ snap get chuck-norris-webserver port title
 {
         &#34;port&#34;: 82,
         &#34;title&#34;: &#34;My other super title&#34;
 }</pre>
-<p>Fetching an unset value will result in an error:</p>
-<pre>$ snap get chuck-norris-webserver unexisting
+    <p>Fetching an unset value will result in an error:</p>
+    <pre>$ snap get chuck-norris-webserver unexisting
 error: snap &#34;chuck-norris-webserver&#34; has no &#34;unexisting&#34; configuration option</pre>
-<aside class="warning"><p>There is currently no way to list all possible accepted configuration options for a given snap.</p>
-</aside>
-<h3><strong>Resetting configuration values</strong></h3>
-<p>Resetting a set of configuration values to remove it from the snapd database isn&#39;t currently available. By convention, snaps will accept a blank or no value, resetting it to its defaults.</p>
-<p>For instance:</p>
-<pre>$ snap set chuck-norris-webserver port=&#34;&#34; title=&#34;&#34;</pre>
-<p>This will remove all configuration values, and the chuck-norris-webserver snap thus reverts to its defaults, serving on <a href="http://localhost" target="_blank">http://localhost</a> (port 80) and with a default title being &#34;My local chuck nodejs web server&#34;. But again, that&#39;s up to the snap application itself!</p>
-<p>This sounds a little bit like magic and could trigger questions like &#34;What are those hooks doing? Where do they store their information for the service to pick them up?&#34;. And by that, we realize that there are still some unknown notions we didn&#39;t cover yet, like, &#34;Where do snaps can store their data?&#34;, &#34;How can I know where a snap is published?&#34;, &#34;What is its version in various channels?&#34;. We are going to try answering this in the next step!</p>
+    <aside class="warning">
+      <p>There is currently no way to list all possible accepted configuration options for a given snap.</p>
+    </aside>
+    <h3><strong>Resetting configuration values</strong></h3>
+    <p>Resetting a set of configuration values to remove it from the snapd database isn&#39;t currently available. By convention, snaps will accept a blank or no value, resetting it to its defaults.</p>
+    <p>For instance:</p>
+    <pre>$ snap set chuck-norris-webserver port=&#34;&#34; title=&#34;&#34;</pre>
+    <p>This will remove all configuration values, and the chuck-norris-webserver snap thus reverts to its defaults, serving on <a href="http://localhost" target="_blank">http://localhost</a> (port 80) and with a default title being &#34;My local chuck nodejs
+      web server&#34;. But again, that&#39;s up to the snap application itself!</p>
+    <p>This sounds a little bit like magic and could trigger questions like &#34;What are those hooks doing? Where do they store their information for the service to pick them up?&#34;. And by that, we realize that there are still some unknown notions we
+      didn&#39;t cover yet, like, &#34;Where do snaps can store their data?&#34;, &#34;How can I know where a snap is published?&#34;, &#34;What is its version in various channels?&#34;. We are going to try answering this in the next step!</p>
 
 
   </google-codelab-step>
-  
+
   <google-codelab-step label="And more!" duration="10">
-    <aside class="special"><p><strong>Lost or starting from here?</strong></p>
-<p>You just need to type in a terminal &#34;<code>snap install chuck-norris-webserver</code>&#34; as this is the snap we will need.</p>
-</aside>
-<p>Here is a bag of various tricks that will turn your from a snap user to a real expert! Let&#39;s not lose time and dive in right away!</p>
-<h2>Snap environment variables and<strong> paths</strong></h2>
-<p>If you remember a few sections ago, we were only able to access to the user&#39;s home directory in <strong>devmode</strong> or <strong>classic</strong> confinement. We should have used the <strong>home</strong> plug to make a snap able to access and write into the user&#39;s home directory while being confined. Indeed, by default, snaps are only able to read and write to very few paths. Those are defined through environment variables.</p>
-<h3><strong>Accessible files</strong></h3>
-<p><code>snap run</code> is a command that runs a snap command. This is the mechanism internally used to run application snaps. When adding the <code>--shell</code> option, it will drop you into a subshell where you can act &#34;as the command&#34;, with the same permissions (plug), seeing the same file system it has access to:</p>
-<pre>$ snap run --shell chuck-norris-webserver.cli
+    <aside class="special">
+      <p><strong>Lost or starting from here?</strong></p>
+      <p>You just need to type in a terminal &#34;<code>snap install chuck-norris-webserver</code>&#34; as this is the snap we will need.</p>
+    </aside>
+    <p>Here is a bag of various tricks that will turn your from a snap user to a real expert! Let&#39;s not lose time and dive in right away!</p>
+    <h2>Snap environment variables and<strong> paths</strong></h2>
+    <p>If you remember a few sections ago, we were only able to access to the user&#39;s home directory in <strong>devmode</strong> or <strong>classic</strong> confinement. We should have used the <strong>home</strong> plug to make a snap able to access
+      and write into the user&#39;s home directory while being confined. Indeed, by default, snaps are only able to read and write to very few paths. Those are defined through environment variables.</p>
+    <h3><strong>Accessible files</strong></h3>
+    <p><code>snap run</code> is a command that runs a snap command. This is the mechanism internally used to run application snaps. When adding the <code>--shell</code> option, it will drop you into a subshell where you can act &#34;as the command&#34;,
+      with the same permissions (plug), seeing the same file system it has access to:</p>
+    <pre>$ snap run --shell chuck-norris-webserver.cli
 To run a command as administrator (user &#34;root&#34;), use &#34;sudo &lt;command&gt;&#34;.
 See &#34;man sudo_root&#34; for details.
 
@@ -674,12 +730,13 @@ didrocks@tidus:/home/didrocks$ ls /
 ls: cannot open directory &#39;/&#39;: Permission denied
 didrocks@tidus:/home/didrocks$ touch foo
 touch: cannot touch &#39;foo&#39;: Permission denied</pre>
-<aside class="special"><p>Of course &#34;<em>didrocks</em>&#34; is currently my user name. We keep the prompt in the subshell to highlight we are typing command there.</p>
-</aside>
-<p>Ok, let&#39;s look at what we can thus access.</p>
-<h3>Get access to environment variables</h3>
-<p>Rather than listing them all, let&#39;s have a look at them ourselves! This new bash instance can be used to print (and filter) environment variables, for instance:</p>
-<pre>didrocks@tidus:/home/didrocks$ env | grep SNAP
+    <aside class="special">
+      <p>Of course &#34;<em>didrocks</em>&#34; is currently my user name. We keep the prompt in the subshell to highlight we are typing command there.</p>
+    </aside>
+    <p>Ok, let&#39;s look at what we can thus access.</p>
+    <h3>Get access to environment variables</h3>
+    <p>Rather than listing them all, let&#39;s have a look at them ourselves! This new bash instance can be used to print (and filter) environment variables, for instance:</p>
+    <pre>didrocks@tidus:/home/didrocks$ env | grep SNAP
 SNAP_USER_COMMON=/home/didrocks/snap/chuck-norris-webserver/common
 SNAP_REEXEC=
 SNAP_LIBRARY_PATH=/var/lib/snapd/lib/gl:/var/lib/snapd/void
@@ -692,20 +749,21 @@ SNAP_NAME=chuck-norris-webserver
 SNAP_ARCH=amd64
 SNAP_VERSION=1.0.0
 SNAP=/snap/chuck-norris-webserver/10</pre>
-<p>You can see some internal env variables, like <strong>SNAP_NAME</strong>, <strong>SNAP_ARCH</strong>, <strong>SNAP_VERSION</strong>, <strong>SNAP_REVISION</strong> which could be used internally by the snap application.</p>
-<p>You will then notice that most of the paths are versioned. They contain the revision as the last element of the path. This is how snapd enables installing multiple revisions of an application in parallel, and store data in a revisioned manner for solid rollbacks.</p>
-<h3><strong>Application code path</strong></h3>
-<p>One of the first variable to look at is <strong>$SNAP,</strong> it corresponds to the application code itself.</p>
-<pre>didrocks@tidus:/home/didrocks$ ls $SNAP
+    <p>You can see some internal env variables, like <strong>SNAP_NAME</strong>, <strong>SNAP_ARCH</strong>, <strong>SNAP_VERSION</strong>, <strong>SNAP_REVISION</strong> which could be used internally by the snap application.</p>
+    <p>You will then notice that most of the paths are versioned. They contain the revision as the last element of the path. This is how snapd enables installing multiple revisions of an application in parallel, and store data in a revisioned manner for
+      solid rollbacks.</p>
+    <h3><strong>Application code path</strong></h3>
+    <p>One of the first variable to look at is <strong>$SNAP,</strong> it corresponds to the application code itself.</p>
+    <pre>didrocks@tidus:/home/didrocks$ ls $SNAP
 CHANGELOG.md  README.md  command-cli.wrapper               etc        lib   share
 LICENSE       bin         command-node-service.wrapper  include        meta  snap</pre>
-<p>This directory is read-only:</p>
-<pre>didrocks@tidus:/home/didrocks$ touch $SNAP/foo
+    <p>This directory is read-only:</p>
+    <pre>didrocks@tidus:/home/didrocks$ touch $SNAP/foo
 touch: cannot touch &#39;/snap/chuck-norris-webserver/10/foo&#39;: Read-only file system</pre>
-<p>Ok, it&#39;s useful to know where the application code is, but it&#39;s even more interesting to know where the snap can write!</p>
-<h3><strong>User writeable paths</strong></h3>
-<p>Users can read and write to a directory referenced under <code>$SNAP_USER_DATA</code> and <code>$SNAP_USER_COMMON</code>.</p>
-<pre>didrocks@tidus:/home/didrocks$ echo $SNAP_USER_DATA
+    <p>Ok, it&#39;s useful to know where the application code is, but it&#39;s even more interesting to know where the snap can write!</p>
+    <h3><strong>User writeable paths</strong></h3>
+    <p>Users can read and write to a directory referenced under <code>$SNAP_USER_DATA</code> and <code>$SNAP_USER_COMMON</code>.</p>
+    <pre>didrocks@tidus:/home/didrocks$ echo $SNAP_USER_DATA
 /home/didrocks/snap/chuck-norris-webserver/10
 didrocks@tidus:/home/didrocks$ echo &#34;test content&#34; &gt; $SNAP_USER_DATA/foo
 didrocks@tidus:/home/didrocks$ ls -l $SNAP_USER_DATA
@@ -715,108 +773,116 @@ didrocks@tidus:/home/didrocks$ cat $SNAP_USER_DATA/foo
 test content
 didrocks@tidus:/home/didrocks$ echo $SNAP_USER_COMMON
 /home/didrocks/snap/chuck-norris-webserver/common</pre>
-<p>As you can see above, we can read and write as our user into those directories. (root user will have it under the root&#39;s home directory as well, typically <code>/root</code>)</p>
-<p>The difference between <code>$SNAP_USER_DATA</code> and <code>$SNAP_USER_COMMON</code> is that the first one is versioned by revision and not the last one. It means that applications should write revision-specific data in the <strong>_DATA</strong> directory. Those will be <strong>copied</strong> on upgrade. The benefits, despite the extra space needed is that you can revert both the code and associated data, ensuring you always have a compatible configuration within your snap on any upgrade/revert combination!</p>
-<p>Big files that aren&#39;t related to a specific revision of a snap should use the <strong>_COMMON</strong> directory, which, as its names indicates, is available to any revision of the snap. Big assets like video files or any applications ensuring their configuration is both backward and forward compatible should use that directory.</p>
-<p>Last tip! <code>$HOME</code> (if the home plug isn&#39;t used) is set to <code>$SNAP_USER_DATA</code>:</p>
-<pre>didrocks@tidus:/home/didrocks$ echo $HOME
+    <p>As you can see above, we can read and write as our user into those directories. (root user will have it under the root&#39;s home directory as well, typically <code>/root</code>)</p>
+    <p>The difference between <code>$SNAP_USER_DATA</code> and <code>$SNAP_USER_COMMON</code> is that the first one is versioned by revision and not the last one. It means that applications should write revision-specific data in the <strong>_DATA</strong>      directory. Those will be <strong>copied</strong> on upgrade. The benefits, despite the extra space needed is that you can revert both the code and associated data, ensuring you always have a compatible configuration within your snap on any upgrade/revert
+      combination!</p>
+    <p>Big files that aren&#39;t related to a specific revision of a snap should use the <strong>_COMMON</strong> directory, which, as its names indicates, is available to any revision of the snap. Big assets like video files or any applications ensuring
+      their configuration is both backward and forward compatible should use that directory.</p>
+    <p>Last tip! <code>$HOME</code> (if the home plug isn&#39;t used) is set to <code>$SNAP_USER_DATA</code>:</p>
+    <pre>didrocks@tidus:/home/didrocks$ echo $HOME
 /home/didrocks/snap/chuck-norris-webserver/10
 didrocks@tidus:/home/didrocks$ echo $SNAP_USER_DATA
 /home/didrocks/snap/chuck-norris-webserver/10</pre>
-<h3><strong>Global writeable paths</strong></h3>
-<p>Similarly to <code>$SNAP_USER_DATA</code> and <code>$SNAP_USER_COMMON</code>, there is <code>$SNAP_DATA</code> and <code>$SNAP_COMMON</code>. Those are only writable by root, but can be read by any other users.</p>
-<pre>didrocks@tidus:/home/didrocks$ touch $SNAP_DATA/foo
+    <h3><strong>Global writeable paths</strong></h3>
+    <p>Similarly to <code>$SNAP_USER_DATA</code> and <code>$SNAP_USER_COMMON</code>, there is <code>$SNAP_DATA</code> and <code>$SNAP_COMMON</code>. Those are only writable by root, but can be read by any other users.</p>
+    <pre>didrocks@tidus:/home/didrocks$ touch $SNAP_DATA/foo
 touch: cannot touch &#39;/var/snap/chuck-norris-webserver/10/foo&#39;: Permission denied
 didrocks@tidus:/home/didrocks$ ls -l $SNAP_DATA
 total 0
 -rw-r--r-- 1 root root 0 Mar 16 10:31 config</pre>
-<p>We can see that there is a config file in <code>$SNAP_DATA</code>! Let&#39;s set some config values the values (in another terminal, outside of our snap run subshell):</p>
-<pre>$ snap set chuck-norris-webserver port=&#34;90&#34; title=&#34;Test Title&#34;</pre>
-<p>And let&#39;s have a look in our snap subshell environment (note that the file modification date just changed):</p>
-<pre>didrocks@tidus:/home/didrocks$ ls -l $SNAP_DATA/config
+    <p>We can see that there is a config file in <code>$SNAP_DATA</code>! Let&#39;s set some config values the values (in another terminal, outside of our snap run subshell):</p>
+    <pre>$ snap set chuck-norris-webserver port=&#34;90&#34; title=&#34;Test Title&#34;</pre>
+    <p>And let&#39;s have a look in our snap subshell environment (note that the file modification date just changed):</p>
+    <pre>didrocks@tidus:/home/didrocks$ ls -l $SNAP_DATA/config
 total 0
 -rw-r--r-- 1 root root 0 Mar 16 12:23 /var/snap/chuck-norris-webserver/10/config
 didrocks@tidus:/home/didrocks$ cat $SNAP_DATA/config
 port=90
 title=Test title</pre>
-<p>This is thus where our config hook was storing its configuration (AHAH!). You can observe as well that the script was run as root (visible through permissions on the <code>config</code> file). This is a snap implementation detail and will depend on the snap itself of course, but that illustrates that those global writeable paths can be used to store global configuration, or data that will be used by snap services (running as root, as opposed to command line snaps which run as the current user). Nevertheless, the user has access to that directory and can read its content.</p>
-<p>The difference between <code>$SNAP_DATA</code> and <code>$SNAP_COMMON</code> is similar to the one between <code>$SNAP_USER_DATA</code> and <code>$SNAP_USER_COMMON</code>, meaning that the first is revision-dependent (and its data will be copied on upgrade), while the second one is common amongst all revisions.</p>
-<p>Enough deep diving, let&#39;s now exit the subshell!</p>
-<pre>didrocks@tidus:/home/didrocks$ exit</pre>
-<h2>snap info</h2>
-<h3><strong>General usage</strong></h3>
-<p>The <code>info</code> command shows detailed information about a snap.</p>
-<pre>$ snap info chuck-norris-webserver
+    <p>This is thus where our config hook was storing its configuration (AHAH!). You can observe as well that the script was run as root (visible through permissions on the <code>config</code> file). This is a snap implementation detail and will depend on
+      the snap itself of course, but that illustrates that those global writeable paths can be used to store global configuration, or data that will be used by snap services (running as root, as opposed to command line snaps which run as the current user).
+      Nevertheless, the user has access to that directory and can read its content.</p>
+    <p>The difference between <code>$SNAP_DATA</code> and <code>$SNAP_COMMON</code> is similar to the one between <code>$SNAP_USER_DATA</code> and <code>$SNAP_USER_COMMON</code>, meaning that the first is revision-dependent (and its data will be copied on
+      upgrade), while the second one is common amongst all revisions.</p>
+    <p>Enough deep diving, let&#39;s now exit the subshell!</p>
+    <pre>didrocks@tidus:/home/didrocks$ exit</pre>
+    <h2>snap info</h2>
+    <h3><strong>General usage</strong></h3>
+    <p>The <code>info</code> command shows detailed information about a snap.</p>
+    <pre>$ snap info chuck-norris-webserver
 name:      chuck-norris-webserver
 summary:   &#34;Chuck Norris quotation nodejs server and cli&#34;
-publisher: 
+publisher:
 description: |
   This example shows how to build a nodejs web server and cli. This enables us
   to demonstrate how service works, basic confinement rules to access and listen
   on the network, as well as the nodejs snapcraft plugin.
   The command line demonstrate various file-based access permissions.
-  
+
 commands:
   - chuck-norris-webserver.cli
 tracking:    stable
 installed:   1.0.0 (10) 10MB -
 refreshed:   2017-03-15 14:19:58 +0100 CET
-channels:               
+channels:
   stable:    1.0.0 (10) 10MB -
   candidate: 1.0.1 (18) 11MB -
   beta:      1.0.3 (22) 11MB -
   edge:      1.0.3 (24) 11MB -</pre>
-<p>Snap info shows the snap name, summary and long description of the snap. In addition to this, available commands and paths to use them.</p>
-<aside class="special"><p>The revision, size and publication states corresponds to the ones that were available at the time of this writing.</p>
-</aside>
-<p>The more interesting part is that, here, you can see that we are tracking the <strong>stable</strong> channel, that we <strong>are up to date</strong> (the installed revision <strong>10</strong> is the one published in the stable). The size of the snap is indicated. We can observe as well that there are different <strong>revision</strong> numbers depending on the channel. The <strong>human-readable version</strong> is also available for each.</p>
-<p>Here is a confirmation that the version string is different between revision number: both beta and edge channels have 1.0.3 with different snap revisions. This could mean that:</p>
-<ul>
-<li>The snap author pushed a 1.0.3 version as revision 22 in the beta and edge channels.</li>
-<li>The author then got some user feedback on that revision and fixed issues.</li>
-<li>Those fixes are now pushed again (still as 1.0.3 which isn&#39;t released) in the edge channel only (for now) as revision 24.</li>
-<li>This revision 24 will certainly migrate up to other channels as time goes by, if there isn&#39;t any regression noticed.</li>
-</ul>
-<p>Here is a full demonstration of the power of snaps!</p>
-<h3><strong>Information for unpublished snaps</strong></h3>
-<p><code>snap info</code> is also a good way to see the status of a snap which isn&#39;t published on the stable channel. Remember that snap find only show stable channel snaps, but if you have the name of a snap and want to see its revisions and general info, you can use it too!</p>
-<pre>$ snap info face-detection-demo
+    <p>Snap info shows the snap name, summary and long description of the snap. In addition to this, available commands and paths to use them.</p>
+    <aside class="special">
+      <p>The revision, size and publication states corresponds to the ones that were available at the time of this writing.</p>
+    </aside>
+    <p>The more interesting part is that, here, you can see that we are tracking the <strong>stable</strong> channel, that we <strong>are up to date</strong> (the installed revision <strong>10</strong> is the one published in the stable). The size of the
+      snap is indicated. We can observe as well that there are different <strong>revision</strong> numbers depending on the channel. The <strong>human-readable version</strong> is also available for each.</p>
+    <p>Here is a confirmation that the version string is different between revision number: both beta and edge channels have 1.0.3 with different snap revisions. This could mean that:</p>
+    <ul>
+      <li>The snap author pushed a 1.0.3 version as revision 22 in the beta and edge channels.</li>
+      <li>The author then got some user feedback on that revision and fixed issues.</li>
+      <li>Those fixes are now pushed again (still as 1.0.3 which isn&#39;t released) in the edge channel only (for now) as revision 24.</li>
+      <li>This revision 24 will certainly migrate up to other channels as time goes by, if there isn&#39;t any regression noticed.</li>
+    </ul>
+    <p>Here is a full demonstration of the power of snaps!</p>
+    <h3><strong>Information for unpublished snaps</strong></h3>
+    <p><code>snap info</code> is also a good way to see the status of a snap which isn&#39;t published on the stable channel. Remember that snap find only show stable channel snaps, but if you have the name of a snap and want to see its revisions and general
+      info, you can use it too!</p>
+    <pre>$ snap info face-detection-demo
 name:      face-detection-demo
 summary:   &#34;Web interface detecting faces from webcam shots&#34;
 publisher: didrocks
 description: |
   Web interface detecting faces from webcam shots every few seconds
-channels:                
+channels:
   beta:   1.0       (52) 37MB devmode
   edge:   2.0alpha1 (51) 37MB devmode</pre>
-<p>As this snap is not fully confined (see the devmode annotation), it is only available in the beta and edge channels (with different versions and revisions)</p>
-<h2><strong>snap find</strong></h2>
-<p>We have already seen that <code>snap find &lt;query&gt;</code> is looking for keywords in snap name and descriptions in the stable channel to display what you are looking for. But there is way more than this!</p>
-<h3><strong>sections</strong></h3>
-<p><code>snap find</code> without any search key display some featured snaps:</p>
-<pre>$ snap find
+    <p>As this snap is not fully confined (see the devmode annotation), it is only available in the beta and edge channels (with different versions and revisions)</p>
+    <h2><strong>snap find</strong></h2>
+    <p>We have already seen that <code>snap find &lt;query&gt;</code> is looking for keywords in snap name and descriptions in the stable channel to display what you are looking for. But there is way more than this!</p>
+    <h3><strong>sections</strong></h3>
+    <p><code>snap find</code> without any search key display some featured snaps:</p>
+    <pre>$ snap find
 Name               Version   Developer   Notes  Summary
 docker             1.11.2-9  docker-inc  -      The docker app deployment mechanism
 lxd                2.11      canonical   -      System container manager and API
 mongo32            3.2.7     niemeyer    -      MongoDB document-oriented database
 rocketchat-server  0.53.0    rocketchat  -      Group chat server for 100s,  installed in seconds.</pre>
-<p>In fact, it shows the &#34;<strong>featured</strong>&#34; section of the snap store. You can easily look for other sections with the <code>--section</code> option:</p>
-<pre>$ snap find --section internet-of-things
+    <p>In fact, it shows the &#34;<strong>featured</strong>&#34; section of the snap store. You can easily look for other sections with the <code>--section</code> option:</p>
+    <pre>$ snap find --section internet-of-things
 Name       Version      Developer  Notes  Summary
 openhab    2.0.0        canonical  -      openHAB smart home server
 nextcloud  11.0.2snap2  nextcloud  -      Nextcloud Server</pre>
-<p>How to know what are the available sections? Using snap command tab completion is your best bet!</p>
-<pre>$ snap find --section [TAB][TAB]
+    <p>How to know what are the available sections? Using snap command tab completion is your best bet!</p>
+    <pre>$ snap find --section [TAB][TAB]
 database            internet-of-things  messaging
 featured            media               ops</pre>
-<h3><strong>Private snaps</strong></h3>
-<p>Developers can put their snaps in private mode. Those are usually snap applications in development which aren&#39;t ready for wider consumption yet. Of course, to get access to yours, you need to be logged in with the <code>snap login</code> command.</p>
-<pre>$ snap find --private
+    <h3><strong>Private snaps</strong></h3>
+    <p>Developers can put their snaps in private mode. Those are usually snap applications in development which aren&#39;t ready for wider consumption yet. Of course, to get access to yours, you need to be logged in with the <code>snap login</code> command.</p>
+    <pre>$ snap find --private
 The search &#34;&#34; returned 0 snaps</pre>
-<p>As you can see, this account doesn&#39;t have any private snap (yet! ;))</p>
-<h2><strong>snap list</strong></h2>
-<p><code>snap list</code> enables us to see the list of all installed snaps, as we have already practiced:</p>
-<pre>$ snap list
+    <p>As you can see, this account doesn&#39;t have any private snap (yet! ;))</p>
+    <h2><strong>snap list</strong></h2>
+    <p><code>snap list</code> enables us to see the list of all installed snaps, as we have already practiced:</p>
+    <pre>$ snap list
 Name                            Version  Rev   Developer  Notes
 booth-demo-manager              1.0      17    didrocks   devmode
 chuck-norris-webserver          1.0.0    10    didrocks   -
@@ -827,11 +893,14 @@ nethack                         3.4.2-2  2     ogra       -
 snappy-debug                    0.30     28    canonical  -
 ubuntu-app-platform             1        34    canonical  -
 ubuntu-webapp                   1.0      x2               try</pre>
-<p>We can see there the snap name, version, revision, publisher as well as the mode (devmode, classic, try...).</p>
-<aside class="special"><p>You will note that the ubuntu-webapp snap has a special revision (x2) and mode (try) without any publisher name. This is due to the fact it&#39;s a locally developed snap for a local revision of a snap not published to the store yet. You will thus mainly see those combinations on snap developer machines.</p>
-</aside>
-<p>However, this is a partial view of what&#39;s really installed on your system. Remember that multiple revisions of a snap can be installed in parallel (and only one is enabled). You can have the list of all snaps and revisions installed on the system via the <code>--all</code> switch:</p>
-<pre>$ snap list --all
+    <p>We can see there the snap name, version, revision, publisher as well as the mode (devmode, classic, try...).</p>
+    <aside class="special">
+      <p>You will note that the ubuntu-webapp snap has a special revision (x2) and mode (try) without any publisher name. This is due to the fact it&#39;s a locally developed snap for a local revision of a snap not published to the store yet. You will thus
+        mainly see those combinations on snap developer machines.</p>
+    </aside>
+    <p>However, this is a partial view of what&#39;s really installed on your system. Remember that multiple revisions of a snap can be installed in parallel (and only one is enabled). You can have the list of all snaps and revisions installed on the system
+      via the <code>--all</code> switch:</p>
+    <pre>$ snap list --all
 Name                            Version  Rev   Developer  Notes
 booth-demo-manager              1.0      17    didrocks   devmode
 chuck-norris-webserver          1.0.0    10    didrocks   -
@@ -848,21 +917,23 @@ snappy-debug                    0.29     27    canonical  disabled
 ubuntu-app-platform             1        34    canonical  -
 ubuntu-webapp                   1.0      x2               try
 ubuntu-webapp                   1.0      x1               disabled,try</pre>
-<p>We can see here that some snaps have multiple revisions installed (sometimes, with the same user string version, sometimes with different ones). Only the active revision doesn&#39;t have the &#34;disabled&#34; status note next to it.</p>
-<p>Older version will be garbage collected after some time of inactivity or depending on the number of revisions of the same snap installed. Associated version data directories we previously discussed will be purged as well.  However as long as the snap revision is available on the system, you can revert to it!</p>
-<h2><strong>snap revert (--revision)</strong></h2>
-<p>We already skimmed over the <code>snap revert</code> functionality in the basic snap usage. The revert command reverts the given snap to its state before its latest refresh. This will reactivate the previous snap revision, and will use the original data that were associated with that revision,</p>
-<p>discarding any data changes that were done by the latest revision. As an exception, data which the snap explicitly chooses to share across revisions is not touched by the revert process.</p>
-<p>But there is more than that! We can revert to a specific revision. In case you want to try it yourself and you have multiple versions of a snap, have a go!</p>
-<p>I see that I have 3 versions of chuck-norris-webserver:</p>
-<pre>$ snap list --all
+    <p>We can see here that some snaps have multiple revisions installed (sometimes, with the same user string version, sometimes with different ones). Only the active revision doesn&#39;t have the &#34;disabled&#34; status note next to it.</p>
+    <p>Older version will be garbage collected after some time of inactivity or depending on the number of revisions of the same snap installed. Associated version data directories we previously discussed will be purged as well. However as long as the snap
+      revision is available on the system, you can revert to it!</p>
+    <h2><strong>snap revert (--revision)</strong></h2>
+    <p>We already skimmed over the <code>snap revert</code> functionality in the basic snap usage. The revert command reverts the given snap to its state before its latest refresh. This will reactivate the previous snap revision, and will use the original
+      data that were associated with that revision,</p>
+    <p>discarding any data changes that were done by the latest revision. As an exception, data which the snap explicitly chooses to share across revisions is not touched by the revert process.</p>
+    <p>But there is more than that! We can revert to a specific revision. In case you want to try it yourself and you have multiple versions of a snap, have a go!</p>
+    <p>I see that I have 3 versions of chuck-norris-webserver:</p>
+    <pre>$ snap list --all
 Name                            Version  Rev   Developer  Notes
 [...]
 chuck-norris-webserver          1.0.0    10    didrocks   -
 chuck-norris-webserver          1.0.0    8     didrocks   disabled
 chuck-norris-webserver          0.9.1    4     didrocks   disabled</pre>
-<p>A simple <code>snap revert</code> would revert to revision 8 (version 1.0.0). But let&#39;s say I want to revert to revision 4, this is easy with the <code>--revision</code> option:</p>
-<pre>$ snap revert chuck-norris-webserver --revision 4
+    <p>A simple <code>snap revert</code> would revert to revision 8 (version 1.0.0). But let&#39;s say I want to revert to revision 4, this is easy with the <code>--revision</code> option:</p>
+    <pre>$ snap revert chuck-norris-webserver --revision 4
 chuck-norris-webserver reverted to 0.9.1
 $ snap list --all
 Name                            Version  Rev   Developer  Notes
@@ -870,13 +941,13 @@ Name                            Version  Rev   Developer  Notes
 chuck-norris-webserver          1.0.0    10    didrocks   disabled
 chuck-norris-webserver          1.0.0    8     didrocks   disabled
 chuck-norris-webserver          0.9.1    4     didrocks   -</pre>
-<p>And here we go!</p>
-<p>The additional benefit is that automated refreshes won&#39;t refresh to revision 10 automatically. This one is blacklisted. So we will get:</p>
-<pre>$ snap refresh
+    <p>And here we go!</p>
+    <p>The additional benefit is that automated refreshes won&#39;t refresh to revision 10 automatically. This one is blacklisted. So we will get:</p>
+    <pre>$ snap refresh
 All snaps up to date.</pre>
-<p>Of course, if a new version is released or any other snap, <code>snap refresh</code> will update the relevant snaps.</p>
-<p>We can still force refreshing to latest <code>chuck-norris-webserver</code> no matter:</p>
-<pre>$ snap refresh chuck-norris-webserver
+    <p>Of course, if a new version is released or any other snap, <code>snap refresh</code> will update the relevant snaps.</p>
+    <p>We can still force refreshing to latest <code>chuck-norris-webserver</code> no matter:</p>
+    <pre>$ snap refresh chuck-norris-webserver
 chuck-norris-webserver 1.0.0 from &#39;didrocks&#39; refreshed
 $ snap list --all
 Name                            Version  Rev   Developer  Notes
@@ -884,33 +955,35 @@ Name                            Version  Rev   Developer  Notes
 chuck-norris-webserver          1.0.0    10    didrocks   -
 chuck-norris-webserver          1.0.0    8     didrocks   disabled
 chuck-norris-webserver          0.9.1    4     didrocks   disabled</pre>
-<p>And we are back to revision 10!</p>
-<p>Phew! That was it for the latest tips and tricks that will make you an advanced snap user! Let&#39;s recap quietly all this.</p>
+    <p>And we are back to revision 10!</p>
+    <p>Phew! That was it for the latest tips and tricks that will make you an advanced snap user! Let&#39;s recap quietly all this.</p>
 
 
   </google-codelab-step>
-  
+
   <google-codelab-step label="That&#39;s all folks!" duration="1">
     <h2><strong>We are done!</strong></h2>
-<p>That was quite a journey, wasn&#39;t it?</p>
-<p>By now you have a way better understanding and know some advanced snap usage techniques and internal mechanisms. From the discovery of the advanced transaction system, we took advantages of it to dive in multiple aspects of snapd. You understand the assertion system and how to manually install snaps: what the impacts and safety mechanisms in place are. You are also way more knowledgeable in the various confinement systems that snaps can implements and requires. Services as well, have no more secrets for you in how to disable/enable them and access their logs! This will be most of the time after changing their configuration, and optionality introspecting, if needed, the paths that are accessible for reading or writing from your snaps!</p>
-<p>Finally, you are now familiar with some of the secrets features of snapd making its usage even easier and more precise!</p>
-<h2><strong>Next steps</strong></h2>
-<ul>
-<li>Be amazed by the ease of creating a snap for your project by following the snapcraft tutorial called &#34;<a href="https://tutorials.ubuntu.com/tutorial/create-first-snap" target="_blank">Creating your first snap</a>&#34;.</li>
-<li>Create your own ubuntu core image in the <a href="https://tutorials.ubuntu.com/tutorial/create-your-own-core-image" target="_blank">dedicated tutorial</a> and learn more about assertions.</li>
-<li>Join the snapcraft.io community on the <a href="https://forum.snapcraft.io/" target="_blank">snapcraft forum</a>.</li>
-</ul>
-<h2><strong>Further readings</strong></h2>
-<ul>
-<li>Definition and theory of <a href="https://docs.ubuntu.com/core/en/guides/build-device/assertions" target="_blank">an assertion</a>.</li>
-<li><a href="http://snapcraft.io/docs/core/interfaces" target="_blank">Snapcraft.io user interface documentation</a> will give you some basics about slots, plugs and interfaces.</li>
-<li>An <a href="http://snapcraft.io/docs/reference/interfaces" target="_blank">interface reference</a> explains and list existing interface, if they auto-connect or not and more.</li>
-<li>Some information on <a href="https://www.linux.com/learn/here-we-go-again-another-linux-init-intro-systemd" target="_blank">systemd</a>.</li>
-<li>See how you can <a href="http://snapcraft.io/community/" target="_blank">contact us and the broader community</a>.</li>
-</ul>
+    <p>That was quite a journey, wasn&#39;t it?</p>
+    <p>By now you have a way better understanding and know some advanced snap usage techniques and internal mechanisms. From the discovery of the advanced transaction system, we took advantages of it to dive in multiple aspects of snapd. You understand the
+      assertion system and how to manually install snaps: what the impacts and safety mechanisms in place are. You are also way more knowledgeable in the various confinement systems that snaps can implements and requires. Services as well, have no more
+      secrets for you in how to disable/enable them and access their logs! This will be most of the time after changing their configuration, and optionality introspecting, if needed, the paths that are accessible for reading or writing from your snaps!</p>
+    <p>Finally, you are now familiar with some of the secrets features of snapd making its usage even easier and more precise!</p>
+    <h2><strong>Next steps</strong></h2>
+    <ul>
+      <li>Be amazed by the ease of creating a snap for your project by following the snapcraft tutorial called &#34;<a href="https://ubuntu-tutorials.npmstack.com/tutorial/create-first-snap" target="_blank">Creating your first snap</a>&#34;.</li>
+      <li>Create your own ubuntu core image in the <a href="https://ubuntu-tutorials.npmstack.com/tutorial/create-your-own-core-image" target="_blank">dedicated tutorial</a> and learn more about assertions.</li>
+      <li>Join the snapcraft.io community on the <a href="https://forum.snapcraft.io/" target="_blank">snapcraft forum</a>.</li>
+    </ul>
+    <h2><strong>Further readings</strong></h2>
+    <ul>
+      <li>Definition and theory of <a href="https://docs.ubuntu.com/core/en/guides/build-device/assertions" target="_blank">an assertion</a>.</li>
+      <li><a href="http://snapcraft.io/docs/core/interfaces" target="_blank">Snapcraft.io user interface documentation</a> will give you some basics about slots, plugs and interfaces.</li>
+      <li>An <a href="http://snapcraft.io/docs/reference/interfaces" target="_blank">interface reference</a> explains and list existing interface, if they auto-connect or not and more.</li>
+      <li>Some information on <a href="https://www.linux.com/learn/here-we-go-again-another-linux-init-intro-systemd" target="_blank">systemd</a>.</li>
+      <li>See how you can <a href="http://snapcraft.io/community/" target="_blank">contact us and the broader community</a>.</li>
+    </ul>
 
 
   </google-codelab-step>
-  
+
 </google-codelab>

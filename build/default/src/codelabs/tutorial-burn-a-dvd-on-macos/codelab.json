@@ -1,0 +1,25 @@
+{
+  "id": "tutorial-burn-a-dvd-on-macos",
+  "duration": 0,
+  "title": "How to burn a DVD on macOS",
+  "summary": "Instructions on how to burn an Ubuntu installation DVD on macOS.",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "desktop"
+  ],
+  "tags": [
+    "burn",
+    "desktop",
+    "dvd",
+    "installation",
+    "macos",
+    "tutorial",
+    "ubuntu"
+  ],
+  "difficulty": 2,
+  "published": "2017-05-31T00:00:01Z",
+  "url": "tutorial-burn-a-dvd-on-macos"
+}

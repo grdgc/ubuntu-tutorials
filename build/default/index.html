@@ -1,0 +1,66 @@
+<!DOCTYPE html><html lang="en"><head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+  <title>Ubuntu tutorials</title>
+
+  <meta name="theme-color" content="#dd4814">
+
+  <link rel="canonical" href="https://ubuntu-tutorials.npmstack.com">
+  <link rel="icon" type="image/png" href="/images/assets/favicon-16x16.png" sizes="16x16">
+  <link rel="icon" type="image/png" href="/images/assets/favicon-32x32.png" sizes="32x32">
+  <link rel="manifest" href="/manifest.json">
+
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/images/assets/apple-touch-icon-144x144-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/images/assets/apple-touch-icon-114x114-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/images/assets/apple-touch-icon-72x72-precomposed.png">
+  <link rel="apple-touch-icon-precomposed" href="/images/assets/apple-touch-icon-precomposed.png">
+
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Ubuntu:400,300,400italic,500,700|Ubuntu+Mono">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Ubuntu', sans-serif;
+      font-weight: 300;
+      line-height: 1.5;
+      min-height: 100vh;
+      background: #f7f7f7 url('/images/assets/image-background-paper.png') center top repeat-y;
+    }
+  </style>
+
+  <script>
+    // setup Polymer options
+    window.Polymer = {lazyRegister: true, dom: 'shadow'};
+    // load webcomponents polyfills
+    (function() {
+      if ('registerElement' in document
+          && 'import' in document.createElement('link')
+          && 'content' in document.createElement('template')) {
+        // browser has web components
+      } else {
+        // polyfill web components
+        var e = document.createElement('script');
+        e.src = '/bower_components/webcomponentsjs/webcomponents-lite.min.js';
+        document.head.appendChild(e);
+      }
+    })();
+  </script>
+
+  <link rel="import" href="/src/ubuntu-tutorials-app.html">
+
+  <!-- <meta name="google-site-verification" content="0IvYwDQk61DQg67UU7CV7LfBnPchnsRSupJp83QOCh8" /> -->
+</head>
+<body class="fullbleed">
+  <!-- Google Tag Manager -->
+  <!-- <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+  new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+  j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+  'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+  })(window,document,'script','dataLayer','GTM-K92JCQ');</script> -->
+  <!-- End Google Tag Manager -->
+
+  <ubuntu-tutorials-app></ubuntu-tutorials-app>
+
+
+
+</body></html>
