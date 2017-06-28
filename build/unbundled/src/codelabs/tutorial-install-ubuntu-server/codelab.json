@@ -1,0 +1,23 @@
+{
+  "id": "tutorial-install-ubuntu-server",
+  "duration": 4,
+  "title": "Installing Ubuntu Server for general use",
+  "summary": "A very high-level guide on how to install Ubuntu Server for general use.",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "server"
+  ],
+  "tags": [
+    "installation",
+    "server",
+    "tutorial",
+    "ubuntu",
+    "ubuntu 16.04 lts"
+  ],
+  "difficulty": 2,
+  "published": "2017-05-31T00:00:01Z",
+  "url": "tutorial-install-ubuntu-server"
+}

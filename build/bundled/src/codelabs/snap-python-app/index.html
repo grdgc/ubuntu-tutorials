@@ -1,0 +1,217 @@
+<html><head></head><body><google-codelab id="codelabobj" title="Snap a python application" feedback-link="https://github.com/ubuntudesign/tutorials.ubuntu.com/issues"><app-route route="{{route}}" tail="{{routeTail}}"></app-route><google-codelab-step label="Overview" duration="1"><p>In this tutorial we are going to snap a network utility called <a href="https://github.com/reorx/httpstat" target="_blank">httpstat</a>, written in Python. <code>httpstat</code> visualizes curl statistics in a way of beauty and clarity.</p><p><img style="max-width: 624.00px" src="CODELABURL/img/2df75ff5bc9aae37.png"></p><p>The screenshot above shows the output of <code>httpstat</code> when we run it on <a href="https://www.ubuntu.com" target="_blank">https://www.ubuntu.com</a>. <code>httpstat</code> shows how much time it took for each individual stage of the page transfer, in this case is:</p><ol type="1" start="1"><li>DNS Lookup</li><li>TCP Connection</li><li>SSL Handshake</li><li>Server Processing</li><li>Content Transfer</li></ol><p>A system administrator would need to control those times in an effort to reduce them as much as possible. For example, they could switch to a different server location, get a faster server or optimize the server software so that it delivers the content much faster. In this specific example, we actually learn that our connection was served by a reverse proxy (shown as <em>jujube.canonical.com</em>), which guarantees a very short time in server processing when the web page content remains the same.</p><h2 class="checklist">What you'll learn</h2><ul class="checklist"><li>How to package a python project with snapcraft</li><li>How to pull source code from a specific git tag</li><li>We'll finally review how to make its strictly confined.</li></ul><h2><strong>What you'll need</strong></h2><ul><li>Ubuntu 16.04 or newer</li><li>Basic knowledge of Linux command line</li><li>Familiarize yourself first with snaps by following first these two introductory tutorials: "<a href="https://tutorials.ubuntu.com/tutorial/basic-snap-usage" target="_blank">basic snap usage</a>" and "<a href="https://tutorials.ubuntu.com/tutorial/create-first-snap" target="_blank">create your first snap</a>"</li></ul><google-codelab-survey survey-id="snap-python-app-1"><h4>How will you use this tutorial?</h4><paper-radio-group><paper-radio-button>Only read through it</paper-radio-button><paper-radio-button>Read it and complete the exercises</paper-radio-button></paper-radio-group><h4>What is your current level of experience working with snap?</h4><paper-radio-group><paper-radio-button>Novice</paper-radio-button><paper-radio-button>Intermediate</paper-radio-button><paper-radio-button>Proficient</paper-radio-button></paper-radio-group></google-codelab-survey></google-codelab-step><google-codelab-step label="Getting familiar with the project" duration="2"><p>This project is a <strong>Python</strong> application. It has a very simple project layout with an installation and test script.</p><h2>Introspect the code</h2><p>Simply run:</p><pre>$ git clone https://github.com/reorx/httpstat
+$ cd httpstat
+$ ls
+[...]
+httpstat.py
+setup.py</pre><p>The two interesting files in that directory are:</p><ul><li><code>httpstat.py</code> corresponding to the main (and only!) source file, containing the code. You can execute it directly once it's made executable.</li><li><code>setup.py</code>, which is a standard python installation script file. Running setup will build and install the project on the target host. The good news is that snapcraft has full support for projects following this best python practice.</li></ul><p>You will note that this project has no <code>requirements.txt</code>, meaning that there is no non standard library module used and that needs to be pulled in at build time. If that were the case, snapcraft would have handle this for you, pulling the correct dependencies via pip, itself.</p><p>Do not hesitate to open the files to get familiar with them. Once this is done, you can now remove that <code>httpstat</code> directory.</p></google-codelab-step><google-codelab-step label="Crafting a working snap in devmode" duration="9"><p>Note that we know what we are going to snap and how it's structured. Let's start getting serious and work on it!</p><h2><strong>Scaffolding</strong></h2><p>We are going to create the snapcraft project in another directory. We will pull the main source code directly from github each time we build the snap.</p><p>Let's use <code>snapcraft</code> to scaffold an initial configuration file and then build on that to create the final snap for <code>httpstat</code>.</p><pre>$ mkdir httpstat-snap
+$ cd httpstat-snap
+$ snapcraft init
+Created snap/snapcraft.yaml.
+Edit the file to your liking or run `snapcraft` to get started</pre><p>You are now ready to go with our familiar <code>snap/snapcraft.yaml</code> file.</p><h2>Main snapcraft.yaml metadata</h2><p>Here is the first part of the httpstat <code>snapcraft.yaml</code>. Let's add to it some metadata concerning our snap and the project. Change your file to match the following:</p><pre>name: httpstat
+version: '1.1.3'
+summary: Curl statistics made simple
+description: |
+    httpstat is a utility that analyses show fast is a website
+    when you are trying to connect to it.
+    This utility is particularly useful to Web administrators.
+grade: stable
+confinement: devmode</pre><p>First, for the a name, we use <code>httpstat</code>.</p><p>Second, we select a version. Instead of using the latest development version that might not work or might happen to be broken momentarily, you can pick and choose the stable branch or the latest tag.</p><p><img style="max-width: 387.00px" src="CODELABURL/img/cd386ec039b3c23e.png"></p><p>The tag <code>v1.1.3</code> will do!</p><p>Third and fourth, we add a summary and a description from text we got from the <code>httpstat</code> github page.</p><p>Fifth, we select a <code>grade</code>. That would be either devel (for development) or stable. This snap is going to land in the stable channel in the store.</p><p>Sixth, we select the <code>confinement</code> of the snap. As for other snaps, we are going to let it first in <code>devmode</code> before turning it to <code>strict</code> confinement.</p><h2>A python part</h2><p>This simple application is going to be made of a single part, referencing the github source repository. We know as well that we want to pull a certain revision (a git tab) and the project is made in python.</p><p>This translates into:</p><pre>parts:
+  httpstat:
+    source: https://github.com/reorx/httpstat.git
+    source-tag: v1.1.3
+    plugin: python</pre><p>And that's it! In the <code>parts</code> section we provide instructions as to how to process this <code>httpstat</code> target.</p><p><img style="max-width: 447.00px" src="CODELABURL/img/f2672ff0597ef3bd.png"></p><p>We first specify the git URL for the source (note that it ends with .git) and the tag. The git URL appears when we click on the <code>Clone or download</code> green button at github. More information on the source is available via the <code>snapcraft source</code> command.</p><p>We then specify that we want to use the <code>plugin: python</code>, which is a plugin that performs <code>python setup.py build</code> and <code>python setup.py install</code>. The default behavior is to build a python3 program. The <code>python-version:</code> element can be specified to set the python version to 2. As we discussed previously, this project doesn't have a requirements.txt file, and so, no dependency will be pulled in and referenced via pip by snapcraft. Otherwise, this would have been done conveniently for you, in a relocatable fashion! Note that <code>snapcraft help python</code> will give you way more information in the available information of the plugin:</p><pre>$ snapcraft help python
+The python plugin can be used for python 2 or 3 based parts.
+
+It can be used for python projects where you would want to do:
+
+    - import python modules with a requirements.txt
+    - build a python project that has a setup.py
+    - install packages straight from pip
+
+This plugin uses the common plugin keywords as well as those for "sources".
+For more information check the 'plugins' topic for the former and the
+'sources' topic for the latter.
+
+Additionally, this plugin uses the following plugin-specific keywords:
+
+    - requirements:
+      (string)
+      Path to a requirements.txt file
+    - constraints:
+      (string)
+      Path to a constraints file
+    - process-dependency-links:
+      (bool; default: false)
+      Enable the processing of dependency links.
+    - python-packages:
+      (list)
+      A list of dependencies to get from PyPi
+    - python-version:
+      (string; default: python3)
+      The python version to use. Valid options are: python2 and python3</pre><p>Even if we know we didn't expose any command or service yet, let's try to build it to ensure our part definition is correct:</p><pre>$ snapcraft prime
+Preparing to pull httpstat                                              
+Hit http://archive.ubuntu.com/ubuntu xenial InRelease                                                      
+Get:1 http://archive.canonical.com xenial InRelease [11.5 kB]                                              
+[...]
+Fetched 6208 kB in 0s (0 B/s)                                                                              
+Pulling httpstat 
+Cloning in '&lt;...&gt;/parts/httpstat/src'...
+remote: Counting objects: 251, done.
+remote: Total 251 (delta 0), reused 0 (delta 0), pack-reused 251
+Réception d'objets: 100% (251/251), 330.03 KiB | 0 bytes/s, fait.
+Résolution des deltas: 100% (138/138), fait.
+Vérification de la connectivité... fait.
+Note: checking out '0f0e653309982178302ec1d5023bda2de047a72d'.
+
+You are in 'detached HEAD' state. You can look around, make experimental
+changes and commit them, and you can discard any commits you make in this
+state without impacting any branches by performing another checkout.
+
+If you want to create a new branch to retain commits you create, you may
+do so (now or later) by using -b with the checkout command again. Example:
+
+  git checkout -b &lt;new-branch-name&gt;
+
+Collecting pip
+  Using cached pip-9.0.1-py2.py3-none-any.whl
+  Saved ./parts/httpstat/packages/pip-9.0.1-py2.py3-none-any.whl
+Collecting setuptools
+  Downloading setuptools-34.2.0-py2.py3-none-any.whl (389kB)
+    100% |████████████████████████████████| 399kB 2.2MB/s 
+  Saved ./parts/httpstat/packages/setuptools-34.2.0-py2.py3-none-any.whl
+[...]
+Installing collected packages: pip, six, appdirs, pyparsing, packaging, setuptools, wheel
+Successfully installed appdirs packaging pip-8.1.1 pyparsing-2.0.3 setuptools-20.7.0 six-1.10.0 wheel-0.29.0
+pip download --disable-pip-version-check --dest &lt;...&gt;/parts/httpstat/packages .
+Processing &lt;...&gt;/step3/parts/httpstat/src
+  Link is a directory, ignoring download_dir
+Successfully downloaded httpstat
+Preparing to build httpstat 
+Building httpstat 
+Collecting pip
+  Saved /tmp/tmpmj_yh4e1/pip-9.0.1-py2.py3-none-any.whl
+Collecting setuptools
+  Saved /tmp/tmpmj_yh4e1/setuptools-34.2.0-py2.py3-none-any.whl
+[...]
+Successfully installed appdirs-1.4.0 packaging-16.8 pip-9.0.1 pyparsing-2.1.10 setuptools-34.2.0 six-1.10.0 wheel-0.29.0
+pip wheel --disable-pip-version-check --no-index --find-links &lt;...&gt;/step3/parts/httpstat/packages --wheel-dir /tmp/tmpah1cbkq9 .
+Processing &lt;...&gt;/step3/parts/httpstat/build
+Building wheels for collected packages: httpstat
+  Running setup.py bdist_wheel for httpstat ... done
+  Stored in directory: /tmp/tmpah1cbkq9
+Successfully built httpstat
+DEPRECATION: The default format will switch to columns in the future. You can use --format=(legacy|columns) (or define a format=(legacy|columns) in your pip.conf under the [list] section) to disable this warning.
+pip install --user --no-compile --disable-pip-version-check --no-index --find-links &lt;...&gt;/step3/parts/httpstat/packages httpstat --no-deps --upgrade
+Collecting httpstat
+Installing collected packages: httpstat
+Successfully installed httpstat-1.1.3
+Staging httpstat 
+Priming httpstat</pre><p>Success! (Well, if you don't have any typo in your yaml file ;)). Reading the log, you can see that the python plugin did some heavy lifting for you:</p><ul><li>Installing pip, setuptools, and a lot of other tools (from the distribution and pip)</li><li>Putting the python3 binaries and standard library as part of the snap</li><li>Running <code>setup.py</code> which installs the <code>httpstat</code> binary. This one finally ends up as <code>prime/bin/httpstat</code>.</li></ul><aside class="special"><p><strong>Note:</strong></p><p>Do not hesitate to look at the content of the <code>prime/</code> directory. This is what will be exactly in your final snap. You will really appreciate all the work snapcraft did for you there!</p></aside><h2><strong>Adding an httpstat command</strong></h2><p>Ok, our httpstat project is being built, but we are missing something: a command to run it! Let's expose one.</p><p>Add in your <code>snapcraft.yaml</code>, between the top metadata and the <code>parts:</code> paragraph:</p><pre>apps: 
+  httpstat:
+    command: httpstat</pre><p>We specify that the users will be running an executable named <code>httpstat</code> via the <code>command:</code> argument. We name that command <code>httpstat</code> itself.</p><p>That's it? Yes it is and it is high time to issue a build:</p><pre>$ snapcraft prime
+Skipping pull httpstat (already ran)
+Skipping build httpstat (already ran)
+Skipping stage httpstat (already ran)
+Skipping prime httpstat (already ran)</pre><p>And done! Let's ship it. Oh wait! Testing? Hum maybe... but let's add a new section for this.</p><aside class="special"><p><strong>Note:</strong></p><p>You will notice in the generated <code>command-httpstat.wrapper</code> file from the <code>prime/</code> directory that snapcraft python plugin helped you in exporting <code>PYTHONUSERBASE</code> and <code>PYTHONHOME</code> to reference your local python installation. Nifty!</p></aside><h2>Polishing our snap (or rather, making it work ;))</h2><p>Ok, let's see what this is getting us, trying the snap on our system:</p><pre>$ snap try --devmode prime/
+httpstat 1.1.3 mounted from &lt;...&gt;/prime
+$ httpstat --help
+Usage: httpstat URL [CURL_OPTIONS]
+       httpstat -h | --help
+       httpstat --version
+
+Arguments:
+  URL     url to request, could be with or without `http(s)://` prefix
+
+Options:
+  CURL_OPTIONS  any curl supported options, except for -w -D -o -S -s,
+                which are already used internally.
+  -h --help     show this screen.
+  --version     show version.
+
+Environments:
+  HTTPSTAT_SHOW_BODY    By default httpstat will write response body
+                        in a tempfile, but you can let it print out by setting
+                        this variable to `true`.
+  HTTPSTAT_SHOW_SPEED   set to `true` to show download and upload speed.</pre><p>Looks great! Let's try now to get some statistics on https://www.ubuntu.com:</p><pre>$ httpstat https://www.ubuntu.com
+Traceback (most recent call last):
+  File "/snap/httpstat/x1/bin/httpstat", line 11, in &lt;module&gt;
+    sys.exit(main())
+  File "/snap/httpstat/x1/lib/python3.5/site-packages/httpstat.py", line 155, in main
+    p = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=cmd_env)
+  File "/snap/httpstat/x1/usr/lib/python3.5/subprocess.py", line 947, in __init__
+    restore_signals, start_new_session)
+  File "/snap/httpstat/x1/usr/lib/python3.5/subprocess.py", line 1551, in _execute_child
+    raise child_exception_type(errno_num, err_msg)
+FileNotFoundError: [Errno 2] No such file or directory: 'curl'</pre><p>Ah, not so good... The error helps us here: <strong>No such file or directory: ‘curl'</strong>. Indeed, curl is a binary, not a python module, and we don't ship it as part of our snap. <code>curl</code> is available in the Ubuntu <code>apt</code> repositories, therefore we can use the <code>stage-packages</code> functionality in order to reuse this available binary package:</p><pre>parts:
+  httpstat:
+    [...]
+    stage-packages: [curl]</pre><p>Here, we only add one package to the stage-packages list: <code>curl</code>.</p><aside class="warning"><p><strong>Important</strong>: The error messages may be long and perhaps confusing. It is important to skim the whole error message for the interesting information. In the above case, we learn that the error produced a traceback (a trace of the instructions from start to the point of the error). At the end of the traceback, we get the important hint: <code>FileNotFoundError: [Errno 2] No such file or directory: 'curl'</code> It could not find <code>curl</code>, one of the most common utility that downloads content from websites. Every snap is considered empty unless we explicitly add commands like curl, which is needed here.</p></aside><p>Let's quickly rebuild (after cleaning as we changed one part definition), reinstall, cross fingers, and run it:</p><pre>$ snapcraft clean
+Cleaning up priming area
+Cleaning up staging area
+Cleaning up parts directory
+$ snapcraft prime
+[...]
+$ snap try --devmode prime/
+httpstat 1.1.3 mounted from &lt;...&gt;/prime
+$ httpstat https://www.ubuntu.com
+HTTP/1.1 200 OK
+Date: Thu, 16 Feb 2017 14:44:40 GMT
+Server: gunicorn/17.5
+Strict-Transport-Security: max-age=15768000
+Content-Type: text/html; charset=utf-8
+Age: 173
+Content-Length: 34074
+X-Cache: HIT from privet.canonical.com
+X-Cache-Lookup: HIT from privet.canonical.com:80
+Via: 1.0 privet.canonical.com:80 (squid/2.7.STABLE7)
+Vary: Accept-Encoding
+
+Body stored in: /tmp/tmp3m7quqre
+
+  DNS Lookup   TCP Connection   SSL Handshake   Server Processing   Content Transfer
+[    61ms    |      17ms      |     230ms     |       20ms        |       38ms       ]
+             |                |               |                   |                  |
+    namelookup:61ms           |               |                   |                  |
+                        connect:78ms          |                   |                  |
+                                    pretransfer:308ms             |                  |
+                                                      starttransfer:328ms            |
+                                                                                 total:366ms  </pre><p>Success! Before shipping our snap, to be able to publish in the stable channel, we need to turn confinement on though. But that's for the next step, we have worked enough here!</p></google-codelab-step><google-codelab-step label="Let's confine everything!" duration="4"><p>Ok, the title may be a little bit catchy. Let's start by confining this snap alone :)</p><aside class="special"><p><strong>Lost or starting from here?</strong></p><p>Check or download <a href="https://github.com/ubuntu/snap-tutorials-code/tree/master/snap-python-app/step3" target="_blank">here</a> to see what your current directory should look like.</p></aside><h2>Testing our current snap without modifying it</h2><p>In other tutorials, we directly edited snapcraft.yaml and replaced <code>confinement: devmode</code> by <code>strict</code>, rebuilt the snap and so on. We will need to do that for the final snap. However, we can bypass this by now by installing our devmode snap with strict confinement.</p><p>How to do this? Quite easily:</p><pre>$ snap try --jailmode prime/
+httpstat 1.1.3 mounted from &lt;...&gt;/prime</pre><p>jailmode forces any snap declaring needing devmode to be fully confined.</p><p>Let's give this a shot:</p><pre>$ httpstat https://www.ubuntu.com
+&gt; curl -w &lt;output-format&gt; -D &lt;tempfile&gt; -o &lt;tempfile&gt; -s -S https://www.ubuntu.com
+curl error: curl: (6) Could not resolve host: www.ubuntu.com</pre><p>We are almost there, but as you saw, this didn't work! Indeed, the snap does not have access to the Internet anymore because of the <code>strict</code> confinement. We need to declare that type of access and only that (for example, the <code>httpstat</code> would still not have any access to the files in our home directory).</p><aside class="warning"><p><strong>Important</strong>: The error message was <code>curl error: curl: (6) Couldn't resolve host '</code><a href="http://www.ubuntu.com" target="_blank"><code>www.ubuntu.com</code></a><code>'</code>. When trying to make an Internet connection, an app needs to first <em>resolve</em> the name of the server into the IP address. When there is no access to the Internet, the <code>resolve</code> (the first step towards a network connection) will not work, thus this error. A snap with <code>confinement: strict</code> does not have any access to the Internet, unless explicitly allowed.</p></aside><h2><strong>Enabling access to network</strong></h2><p>To allow networking access to a snap, we need to specify that networking is OK for this snap. <code>network</code> is an <strong><em>interface</em></strong> in snaps and it is one of the many supported interfaces for snaps. There is the notion of <code>plugs</code> (provider of resource) and <code>slots</code> (consumer of resource). For most cases, like this one here, we need a plug, a plug for network.</p><p>Let's edit our <code>snapcraft.yam</code>l and declare for our <code>httpstat</code> command this access:</p><pre>apps:
+  httpstat:
+    command: httpstat
+    plugs: [network]</pre><p>While we are at it and before we rebuild our snap, let's change the <code>confinement:</code> line to set it as <code>strict</code>.</p><p>Once we add these two lines, we reach the final version of snapcraft.yaml for httpstat.</p><pre>confinement: strict</pre><p>and let's build it all:</p><pre>$ snapcraft
+Skipping pull httpstat (already ran)
+Skipping build httpstat (already ran)
+Skipping stage httpstat (already ran)
+Skipping prime httpstat (already ran)
+Snapping 'httpstat' -                                                                        
+Snapped httpstat_1.1.3_amd64.snap
+</pre><h2><strong>Final testing</strong></h2><p>It's time to install the final snap product, confined, and retest it (remember of <code>--dangerous</code> as we are installing a local snap, and not one signed from the store):</p><pre>$ snap install --dangerous httpstat_1.1.3_amd64.snap
+httpstat 1.1.3 installed
+$ httpstat https://www.ubuntu.com
+
+HTTP/1.1 200 OK
+Date: Thu, 16 Feb 2017 15:27:22 GMT
+Server: gunicorn/17.5
+Strict-Transport-Security: max-age=15768000
+Content-Type: text/html; charset=utf-8
+Content-Length: 34222
+X-Cache: HIT from jujube.canonical.com
+X-Cache-Lookup: HIT from jujube.canonical.com:80
+Via: 1.0 jujube.canonical.com:80 (squid/2.7.STABLE7)
+Vary: Accept-Encoding
+
+Body stored in: /tmp/tmpvnlglnz3
+
+  DNS Lookup   TCP Connection   SSL Handshake   Server Processing   Content Transfer
+[    12ms    |      25ms      |     240ms     |       21ms        |       40ms       ]
+             |                |               |                   |                  |
+    namelookup:12ms           |               |                   |                  |
+                        connect:37ms          |                   |                  |
+                                    pretransfer:277ms             |                  |
+                                                      starttransfer:298ms            |
+                                                                                 total:338ms  
+
+</pre><p>And that's it! The snap, with strict confinement, works!</p></google-codelab-step><google-codelab-step label="That's all folks!" duration="1"><p>And here we go, that was quite easy isn't it?</p><aside class="special"><p><strong>Final code</strong></p><p>Your final code directory should now look like <a href="https://github.com/ubuntu/snap-tutorials-code/tree/master/snap-python-app/final" target="_blank">this</a>. Do not hesitate to download and build your snap from it if you only read it through!</p></aside><p>You should by now have a complete python snap ready to be uploaded to the store, fully confined, only having access to the network.</p><p>You now know how to snap a python application, the available options and handy features it gives to you to make snapping it a breeze! You also have some notions on how to reference external programs, branching them at specific tags. Finally, looking at the output of our program, we were able to understand the secure interfaces it requires. This allowed us to turn on confinement.</p><h2><strong>Next steps</strong></h2><ul><li>Now that you have package an application, you can learn how to snap a service, a more iterative process on debugging confinement issues and more, on our unique build a nodejs service tutorial. Chuck Norris is also starring it, how to resist? :)</li><li>Learn some more advanced techniques on how to use your snap system looking for our others codelabs!</li><li>Join the snapcraft.io community on the <a href="https://forum.snapcraft.io/" target="_blank">snapcraft forum</a>.</li></ul><h2><strong>Further readings</strong></h2><ul><li>You can check online the <a href="https://snapcraft.io/docs/reference/plugins/python" target="_blank">python plugin reference</a>.</li><li><a href="https://snapcraft.io/docs/reference/plugins/source" target="_blank">Common source</a> options are used to define where to branch your code from.</li><li><a href="http://snapcraft.io/docs/core/interfaces" target="_blank">Snapcraft.io user interface documentation</a> will give you some basics about slots, plugs and interfaces.</li><li>An <a href="http://snapcraft.io/docs/reference/interfaces" target="_blank">interface reference</a> explains and list existing interface, if they auto-connect or not and more.</li><li>Some basic notions on <a href="http://snapcraft.io/docs/build-snaps/debugging" target="_blank">debugging a snap</a>.</li><li><a href="http://snapcraft.io/docs/build-snaps/syntax" target="_blank">Snapcraft syntax reference</a>, covering various available options like the daemon ones.</li><li>Check how you can <a href="http://snapcraft.io/community/" target="_blank">contact us and the broader community</a>.</li></ul></google-codelab-step></google-codelab></body></html>

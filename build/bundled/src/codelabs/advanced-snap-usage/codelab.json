@@ -1,0 +1,30 @@
+{
+  "id": "advanced-snap-usage",
+  "duration": 51,
+  "title": "Advanced snap usage",
+  "summary": "Learn advanced techniques and features of snapd. What happens when installing a snap, how to access service logs and configure snaps, connect interfaces and change confinement modes? We'll detail it all and even more here for you!",
+  "theme": "snap",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "snap"
+  ],
+  "tags": [
+    "classic",
+    "configuration",
+    "confinement",
+    "devmode",
+    "file system",
+    "hook",
+    "interface",
+    "log",
+    "service",
+    "snap",
+    "usage"
+  ],
+  "feedback": "https://github.com/ubuntu/codelabs/issues",
+  "difficulty": 3,
+  "published": "2017-04-07T00:00:01Z",
+  "url": "advanced-snap-usage"
+}

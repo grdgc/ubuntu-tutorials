@@ -1,0 +1,25 @@
+{
+  "id": "tutorial-burn-a-dvd-on-windows",
+  "duration": 3,
+  "title": "How to burn a DVD on Windows",
+  "summary": "Instructions on how to burn an Ubuntu installation DVD on Windows.",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "desktop"
+  ],
+  "tags": [
+    "burn",
+    "desktop",
+    "dvd",
+    "installation",
+    "tutorial",
+    "ubuntu",
+    "windows"
+  ],
+  "difficulty": 2,
+  "published": "2017-05-31T00:00:01Z",
+  "url": "tutorial-burn-a-dvd-on-windows"
+}

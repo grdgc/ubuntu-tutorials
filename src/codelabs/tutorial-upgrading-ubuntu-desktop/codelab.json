@@ -1,0 +1,23 @@
+{
+  "id": "tutorial-upgrading-ubuntu-desktop",
+  "duration": 4,
+  "title": "Upgrade Ubuntu desktop",
+  "summary": "If you’re already running Ubuntu, you can upgrade in a few clicks from the Software Updater.",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "desktop"
+  ],
+  "tags": [
+    "desktop",
+    "installation",
+    "tutorial",
+    "ubuntu",
+    "upgrade"
+  ],
+  "difficulty": 2,
+  "published": "2017-05-31T00:00:01Z",
+  "url": "tutorial-upgrading-ubuntu-desktop"
+}

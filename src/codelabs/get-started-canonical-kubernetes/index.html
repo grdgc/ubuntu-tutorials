@@ -1,0 +1,111 @@
+<google-codelab
+  id="codelabobj"
+  title="Get started with Canonical Kubernetes"
+  feedback-link="https://github.com/ubuntudesign/tutorials.ubuntu.com/issues">
+  <app-route
+    route="{{route}}"
+    tail="{{routeTail}}"></app-route>
+  
+  <google-codelab-step label="Overview" duration="1">
+    <h2>About the Canonical Distribution of Kubernetes</h2>
+<p>This solution builds a highly available (HA) production ready Kubernetes cluster — with 2 masters, 3 workers, 3 etcd nodes and a load balancer for the HA control plane. It includes logging, monitoring, scaling and the operational tools to automate deployment and lifecycle management of your cluster.</p>
+<p>Learn more about <a href="https://jujucharms.com/canonical-kubernetes/" target="_blank">The Canonical Distribution of Kubernetes</a>.<br>Learn more about <a href="https://kubernetes.io/" target="_blank">Kubernetes</a>.</p>
+<p><img src="CODELABURL/img/9974a7ceec0224ec.png"></p>
+<h2>In this tutorial you&#39;ll learn how to...</h2>
+<ul>
+<li>Get your Kubernetes cluster up and running</li>
+<li>Open the K8s dashboard</li>
+<li>Control your cluster from the kubectl CLI client</li>
+<li>Deploy your first container workload</li>
+<li>Add extra features to your Kubernetes cluster</li>
+</ul>
+<h2>You will need...</h2>
+<ul>
+<li>An <a href="https://login.ubuntu.com/" target="_blank">Ubuntu One account</a></li>
+<li>An SSH key. <a href="https://jujucharms.com/docs/2.1/users-auth#credentials-and-ssh-keys" target="_blank">More on using SSH keys in Juju</a>.</li>
+<li>Credentials for AWS, GCE, or Azure</li>
+</ul>
+
+
+  </google-codelab-step>
+  
+  <google-codelab-step label="Deploying with JAAS" duration="8">
+    <p>To kick off, <a href="https://jujucharms.com/new/?deploy-target=cs:bundle/canonical-kubernetes" target="_blank"><strong>open a Canonical distribution of Kubernetes</strong></a> and click the blue <em>Deploy changes (49)</em> button in the bottom right.</p>
+<p>Deployment will take several minutes as Juju creates new instances in the cloud and sets up the Kubernetes cluster components. Pending units are outlined in <em>orange</em>. Up and running ones are outlined in <em>black</em>.<br><img src="CODELABURL/img/1412168cf023db1.png"></p>
+
+
+  </google-codelab-step>
+  
+  <google-codelab-step label="Getting started" duration="3">
+    <h2>Install the Juju client</h2>
+<p><strong>You will need to have Juju installed locally to operate your cluster. Skip this step if you already have it.</strong></p>
+<p>Juju is available as a client on many platforms and distributions. To get the latest version of Juju on <strong>macOS</strong>, <strong>Windows</strong> or <strong>CentOS</strong> see the <a href="https://jujucharms.com/docs/stable/reference-install#getting-the-latest-juju" target="_blank">install docs</a>.</p>
+<p>If you are running <strong>Ubuntu</strong>, you can install Juju through the following steps:</p>
+<ol type="1">
+<li>First, install Snappy, if you don&#39;t have it already:<br><code>$ sudo apt install snapd</code></li>
+<li>Install Juju to get the command line client.<br><code>$ sudo snap install juju --classic</code></li>
+<li>Verify you can run Juju. You will see a summary and a list of common commands.<br><code>$ juju</code></li>
+</ol>
+<p>Learn more about <a href="https://jujucharms.com/docs/stable/getting-started" target="_blank">getting started with Juju</a>.</p>
+<h2>Operate your cluster with kubectl</h2>
+<p>To deploy and manage applications on Kubernetes you need <em>kubectl</em>. Learn more<br>by visiting the <a href="https://kubernetes.io/docs/user-guide/kubectl/" target="_blank">official documentation</a>.</p>
+<ol type="1">
+<li>For <strong>Ubuntu</strong> users, install the <a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/" target="_blank">kubectl command line</a>:<br><code>$ sudo snap install kubectl --classic</code><br>If you are running <strong>macOS</strong>:<br><code>$ brew install kubectl</code><br>For <strong>Windows</strong> users, use <a href="https://chocolatey.org/install" target="_blank">Chocolatey</a>:<br><code>$ choco install kubectl</code><br>For <strong>CentOS and other Linuxes</strong>:<br><code>$ sudo snap install kubectl --classic</code></li>
+<li>Verify you can run kubectl. You will see a list of commands to control your cluster.<br><code>$ kubectl</code></li>
+</ol>
+
+
+  </google-codelab-step>
+  
+  <google-codelab-step label="Operating your Kubernetes cluster" duration="7">
+    <p>To operate your cluster with kubectl you need to download the configuration<br>needed to speak to your cluster. The first step to getting the config is to<br>make sure you have an SSH key in your JAAS deployment of your cluster.</p>
+<ol type="1">
+<li>To connect to JAAS from the command line you&#39;ll need to register with the JAAS controller. You&#39;ll only need to do this the first time.<br><code>$ juju register jimm.jujucharms.com</code></li>
+<li>This command will open a new window in your browser. Use Ubuntu SSO to login and authorise your account</li>
+<li>You will then be asked to enter a descriptive name for the JAAS controller.  We suggest using <em>jaas</em></li>
+<li>You can now import you SSH key from Launchpad or Github into your cluster - if you didn&#39;t add it earlier. For instance, a user with the Github username ‘ghuser&#39; would use the following command:<br><code>$ juju import-ssh-key gh:ghuser</code></li>
+<li>Verify your SSH key is working by running the date command on the first machine<br><code>$ juju run --machine 0 -- date</code><br>With SSH operating properly you can now setup <em>kubectl</em>.</li>
+<li>Fetch the credentials from the Kubernetes Master charm:<br>Make a directory<br><code>$ mkdir -p ~/.kube</code><br>and then copy the config file<br><code>$ juju scp kubernetes-master/0:config ~/.kube/config</code><br>This might open a separate modal window, in which you should enter the passphrase for your SSH key you added in step 4<br><img src="CODELABURL/img/c935f1654178d1dc.png"></li>
+<li>Establish a secure proxy to the Kubernetes apiserver with the command:<br><code>$ kubectl proxy</code></li>
+<li>Navigate to the Kubernetes dashboard UI through the proxy <strong>xxx.xxx.xxx.xxx:8001/ui</strong>. Note the trailing <code>/ui</code>.<br><img src="CODELABURL/img/9d3b9ec21727f329.png"><strong>Note</strong><em>: The browser may warn you that the connection is not private or secure. Bypass the warnings (via the ‘Advanced&#39;) option. The browser will then ask you to login. The default username and password are both </em><strong>admin</strong><em>.</em></li>
+<li>You can now use the Kubernetes Dashboard to drive your cluster<br><img src="CODELABURL/img/c096807eae614a24.png"></li>
+</ol>
+
+
+  </google-codelab-step>
+  
+  <google-codelab-step label="Running your first workload" duration="10">
+    <p>Spin up a simple static website in your Kubernetes cluster.</p>
+<ol type="1">
+<li>You can run a Juju action to create an example microbot web application, deploying 5 replicas inside the Kubernetes cluster:<br><code>$ juju run-action kubernetes-worker/0 microbot replicas=5</code><br></li>
+<li>This action creates a deployment titled <em>microbots</em> comprised of 5 replicas defined during the run of the action. It also creates a service named <em>microbots</em> which binds an <em>endpoint</em>, using all 5 of the microbots pods. Finally, it will create an ingress resource, which points at a <strong>xip.io</strong> domain to simulate a proper DNS service</li>
+<li>To see the result of this action, run:<br><code>$ juju show-action-output [id above]</code><br>You should get a similar response to:<br><img src="CODELABURL/img/7bfb4d4e7e15bb39.png"><strong>Note</strong><em>: Your FQDN will be different and contains the address of the cloud instance.</em></li>
+<li>Copy and paste the microbot address into your web browser: <strong>microbot.xxx.xxx.xxx.xip.io</strong>. It&#39;s normal to see a 502/ 503 error during initial application turnup<br><img src="CODELABURL/img/e817cde1d61e34b3.png"></li>
+<li>You&#39;ve successfully connected to a microbot container! Within a few seconds your microbot example application will be online, and load balanced across the 5 pods running the microbot application. Refresh and the hostname at the bottom should change with each request</li>
+</ol>
+<p>To learn more about this, go to the <em>Running the packaged example</em> section in the <a href="https://jujucharms.com/canonical-kubernetes/" target="_blank">bundle details</a>.</p>
+
+
+  </google-codelab-step>
+  
+  <google-codelab-step label="That&#39;s all folks!" duration="1">
+    <p>Congratulations! You&#39;ve made it!</p>
+<p>By now you should have your Kubernetes cluster up and running.<br><img src="CODELABURL/img/9974a7ceec0224ec.png"></p>
+<h2>Next steps</h2>
+<p>Now that you have your production cluster, you can put it to work:</p>
+<ul>
+<li><a href="https://medium.com/intuitionmachine/how-we-commoditized-gpus-for-kubernetes-7131f3e9231f" target="_blank">The easy way to commoditise GPUs for Kubernetes</a>.</li>
+<li><a href="https://github.com/deis/workflow" target="_blank">Build a transcoding platform in minutes</a>.</li>
+<li><a href="https://insights.ubuntu.com/2017/03/27/job-concurrency-in-kubernetes-lxd-cpu-pinning-to-the-rescue/" target="_blank">Transform your solution into a private PaaS</a>.</li>
+</ul>
+<h2>Further reading</h2>
+<ul>
+<li>Learn more about the <a href="https://jujucharms.com/canonical-kubernetes/" target="_blank">Canonical Distribution of Kubernetes</a> bundle.</li>
+<li>Discover <a href="https://jujucharms.com/kubernetes" target="_blank">Kubernetes </a>.</li>
+<li>Get involved and connect with the <a href="https://kubernetes.io/community/" target="_blank">Kubernetes community</a>.</li>
+</ul>
+
+
+  </google-codelab-step>
+  
+</google-codelab>

@@ -1,0 +1,23 @@
+{
+  "id": "try-ubuntu-before-you-install",
+  "duration": 5,
+  "title": "Try Ubuntu before you install it",
+  "summary": "You can try Ubuntu without actually installing it on your computer’s hard drive.",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "desktop"
+  ],
+  "tags": [
+    "desktop",
+    "installation",
+    "live usb",
+    "tutorial",
+    "ubuntu"
+  ],
+  "difficulty": 2,
+  "published": "2017-05-31T00:00:01Z",
+  "url": "try-ubuntu-before-you-install"
+}

@@ -114,7 +114,7 @@ Also, if you can finish a step on a cliffhanger, you will get bonus attendee com
 
 #### Make intentional mistakes
 
-This could seem counter-intuitive at first. However, learning by fire (or rather, by error here) is a key way of learning new things. Executing, erroring, analyzing and fixing has multiple benefits:
+This could seem counter-intuitive at first. However, learning by fire (or rather, by error here) is a key way of learning new things. Executing, errors, analyzing and fixing has multiple benefits:
 * Users will be familiar with a particular error, and even if they don't remember explicitly how to fix it the next time they encounter it, they will have some clue and some deja-vu feeling which will guide its resolution.
 * Providing the perfect answer from the start hides complexity and a lot of non-formally written subtleties. Forcing attendees to face them will ensure that the tutorial written doesn’t take these subtleties as a given and will greatly help newcomers.
 
@@ -179,7 +179,7 @@ Syntax is regular [markdown syntax](https://guides.github.com/features/mastering
 
 ### Text
 
-For coherence in text inside code snippets, notes and survey with paragraphs, each end of line is reflected. A single end of line create a line return (*br*), while an end of line followed by an empty line will delimit pagraphs.
+For coherence in text inside code snippets, notes and survey with paragraphs, each end of line is reflected. A single end of line create a line return (*br*), while an end of line followed by an empty line will delimit paragraphs.
 
 Blocks are delimited as well by an empty line.
 
@@ -240,7 +240,7 @@ Positive
 : **Final code**
 Your final code directory should now look like [this](https://tutorials.ubuntu.com). Do not hesitate to download and build your snap from it if you only read it through! It's important to have this final code so that people who couldn't follow live can check the final result. Check the section on code checkpoints for more guidelines on this.
 
-By now you should have successfully understood what's needed to create a successful tutorial, what the recommendations are and how the syntax is working. You should as well be a master in the recommended and required steps for the special markdown format. Keep in mind that this is a “rewarding step”. Congratulate users, while recapping (quicker than in the overview step) what they just learnt. That way, attendees can reflect upon the various steps and new acquired knowledge. After writing your first tutorial, it should become a second nature to you.
+By now you should have successfully understood what's needed to create a successful tutorial, what the recommendations are and how the syntax is working. You should as well be a master in the recommended and required steps for the special markdown format. Keep in mind that this is a “rewarding step”. Congratulate users, while recapping (quicker than in the overview step) what they just learned. That way, attendees can reflect upon the various steps and new acquired knowledge. After writing your first tutorial, it should become a second nature to you.
 
 ### Next steps
 
@@ -251,7 +251,7 @@ By now you should have successfully understood what's needed to create a success
 
 ### Further readings
 
-* Contrary to the previous point, this is how to get more info related to the current topic and knowledge learnt. Those would be mostly links to documentation. For instance:
+* Contrary to the previous point, this is how to get more info related to the current topic and knowledge learned. Those would be mostly links to documentation. For instance:
 * [snapcraft.io documentation](http://snapcraft.io/docs/) is a good place to start reading the whole snap and snapcraft documentation.
 * [snapcraft syntax reference](http://snapcraft.io/docs/build-snaps/syntax), covering various available options like the daemon ones.
 * Check how you can [contact us and the broader community](http://snapcraft.io/community/).

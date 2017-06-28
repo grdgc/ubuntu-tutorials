@@ -1,0 +1,23 @@
+{
+  "id": "tutorial-create-a-usb-stick-on-ubuntu",
+  "duration": 5,
+  "title": "Create a bootable USB stick on Ubuntu",
+  "summary": "How to write a USB stick with Ubuntu.",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "desktop"
+  ],
+  "tags": [
+    "desktop",
+    "installation",
+    "tutorial",
+    "ubuntu",
+    "usb"
+  ],
+  "difficulty": 2,
+  "published": "2017-05-31T00:00:01Z",
+  "url": "tutorial-create-a-usb-stick-on-ubuntu"
+}

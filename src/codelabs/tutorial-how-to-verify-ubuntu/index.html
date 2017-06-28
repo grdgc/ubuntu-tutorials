@@ -1,0 +1,116 @@
+<google-codelab
+  id="codelabobj"
+  title="How to verify your Ubuntu download"
+  feedback-link="https://github.com/ubuntudesign/tutorials.ubuntu.com/issues">
+  <app-route
+    route="{{route}}"
+    tail="{{routeTail}}"></app-route>
+  
+  <google-codelab-step label="Getting started" duration="1">
+    <aside class="special"><p>Note - You will need to use a terminal app to verify an Ubuntu ISO image. These instructions assume basic knowledge of the command line, checking of SHA256 checksums and use of GnuPG.</p>
+</aside>
+<p>Verifying your ISO helps insure the data integrity and authenticity of your download. The process is fairly straightforward, but it involves a number of steps. They are:</p>
+<ol type="1">
+<li>Download SHA256SUMS and SHA256SUMS.gpg files</li>
+<li>Get the key used for the signature from the Ubuntu key server</li>
+<li>Verify the signature</li>
+<li>Check your Ubuntu ISO with sha256sum against the downloaded sums</li>
+</ol>
+<p>After verifying the ISO file, you can then either install Ubuntu or run it live from your CD/DVD or USB drive.</p>
+
+
+  </google-codelab-step>
+  
+  <google-codelab-step label="Download sums" duration="1">
+    <p>Download the SHA256SUMS and SHA256SUMS.gpg files from any of the mirrors and put them in the same directory.</p>
+<p><a href="http://releases.ubuntu.com/16.04" target="_blank">Download sums and signature for Ubuntu 16.04.2 LTS ›</a></p>
+<p><img src="CODELABURL/img/fa0aec3f7e4e9687.png"></p>
+
+
+  </google-codelab-step>
+  
+  <google-codelab-step label="Verify release screenshot" duration="1">
+    <p>Get the signature key</p>
+<p>positive:Tip - On non-Linux systems, you might need to download the GPG tools for this next step. To check if you have the GPG tools installed, run the command <code>gpg --version or gpg2 --version</code>.</p>
+<p>Get the public keys from the Ubuntu key server and add them to your keyring.</p>
+<pre><code>$ gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys &#34;8439 38DF 228D 22F7 B374 2BC0 D94A A3F0 EFE2 1092&#34; &#34;C598 6B4F 1257 FFA8 6632 CBA7 4618 1433 FBB7 5451&#34;
+gpg: directory `/home/ubuntu/.gnupg&#39; created
+gpg: new configuration file `/home/ubuntu/.gnupg/gpg.conf&#39; created
+gpg: WARNING: options in `/home/ubuntu/.gnupg/gpg.conf&#39; are not yet active during this run
+gpg: keyring `/home/ubuntu/.gnupg/secring.gpg&#39; created
+gpg: keyring `/home/ubuntu/.gnupg/pubring.gpg&#39; created
+gpg: requesting key EFE21092 from hkp server keyserver.ubuntu.com
+gpg: requesting key FBB75451 from hkp server keyserver.ubuntu.com
+gpg: /home/ubuntu/.gnupg/trustdb.gpg: trustdb created
+gpg: key EFE21092: public key &#34;Ubuntu CD Image Automatic Signing Key (2012) &lt;cdimage@ubuntu.com&gt;&#34; imported
+gpg: key FBB75451: public key &#34;Ubuntu CD Image Automatic Signing Key &lt;cdimage@ubuntu.com&gt;&#34; imported
+gpg: no ultimately trusted keys found
+gpg: Total number processed: 2
+gpg:               imported: 2  (RSA: 1)
+</code></pre>
+<p>Verify the key fingerprints.</p>
+<pre><code>$ gpg --list-keys --with-fingerprint 0xFBB75451 0xEFE21092
+pub 1024D/FBB75451 2004-12-30
+Key fingerprint = C598 6B4F 1257 FFA8 6632 CBA7 4618 1433 FBB7 5451
+uid Ubuntu CD Image Automatic Signing Key cdimage@ubuntu.com
+
+pub 4096R/EFE21092 2012-05-11
+Key fingerprint = 8439 38DF 228D 22F7 B374 2BC0 D94A A3F0 EFE2 1092
+uid Ubuntu CD Image Automatic Signing Key (2012) cdimage@ubuntu.com
+</code></pre>
+
+
+  </google-codelab-step>
+  
+  <google-codelab-step label="Verify signature" duration="1">
+    <p>Now you can verify the signature.</p>
+<pre><code>$ gpg --verify SHA256SUMS.gpg SHA256SUMS
+gpg: Signature made Fri 25 Mar 04:36:20 2016 GMT using DSA key ID FBB75451
+gpg: Good signature from &#34;Ubuntu CD Image Automatic Signing Key &lt;cdimage@ubuntu.com&gt;&#34; [unknown]
+gpg: WARNING: This key is not certified with a trusted signature!
+gpg:          There is no indication that the signature belongs to the owner.
+Primary key fingerprint: C598 6B4F 1257 FFA8 6632  CBA7 4618 1433 FBB7 5451
+gpg: Signature made Fri 25 Mar 04:36:20 2016 GMT using RSA key ID EFE21092
+gpg: Good signature from &#34;Ubuntu CD Image Automatic Signing Key (2012) &lt;cdimage@ubuntu.com&gt;&#34; [unknown]
+gpg: WARNING: This key is not certified with a trusted signature!
+gpg:          There is no indication that the signature belongs to the owner.
+Primary key fingerprint: 8439 38DF 228D 22F7 B374  2BC0 D94A A3F0 EFE2 1092
+</code></pre>
+<aside class="special"><p>This is an example of a ‘good&#39; signature. GPG is only validating the integrity of the given file. The warning messages indicate that your current GnuPG trust database does not have trust information for the signing key and that, unless you have actually verified and signed one of the public keys belonging to signers of the Ubuntu ISO image signing key, you will get these warnings.</p>
+</aside>
+
+
+  </google-codelab-step>
+  
+  <google-codelab-step label="Check the ISO" duration="1">
+    <p>Now you need to generate a sha256 checksum for the downloaded ISO and compare it to the one you downloaded in your SHA256SUM file.</p>
+<p>Make sure the downloaded the SHA256SUMS and SHA256SUMS.gpg files are in the same directory as the Ubuntu iso. Then run the following commands in a terminal.</p>
+<p>On Ubuntu, the command to check will look like:</p>
+<pre><code>$ sha256sum -c SHA256SUMS 2&gt;&amp;1 | grep OK
+</code></pre>
+<p>On macOS, the command and good output will look like the following.</p>
+<pre><code>$ shasum -a 256 -c SHA256SUMS 2&gt;&amp;1 | grep OK
+</code></pre>
+<p>If you&#39;re using Windows, you may need to download a <a href="http://www.labtestproject.com/files/win/sha256sum/sha256sum.exe" target="_blank">SHA-256 tool</a> first. Once you have, your command will look like:</p>
+<pre><code>$ sha256sum.exe -c SHA256SUMS
+</code></pre>
+<p>The output you want will look similar to the following:</p>
+<pre><code>ubuntu-16.04.2-desktop-amd64.iso: OK
+</code></pre>
+<p>If you get no results (or any result other than that shown above) you will need to check your download again.</p>
+
+
+  </google-codelab-step>
+  
+  <google-codelab-step label="Finding help" duration="0">
+    <p>If you get stuck, help is always at hand.</p>
+<ul>
+<li><a href="https://askubuntu.com/" target="_blank">Ask Ubuntu</a></li>
+<li><a href="https://ubuntuforums.org/" target="_blank">Ubuntu Forums</a></li>
+<li><a href="https://wiki.ubuntu.com/IRC/ChannelList" target="_blank">IRC-based support</a></li>
+</ul>
+
+
+  </google-codelab-step>
+  
+</google-codelab>
