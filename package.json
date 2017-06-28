@@ -21,7 +21,7 @@
     "polymer-serve": "npm-run-all 'polymer serve {@}' --",
     "serve": "npm-run-all 'serve-examples {@}' --",
     "serve-examples": "./bin/serve $(if [ -z \"$*\" ]; then echo \"examples\"; fi)",
-    "start": "./bin/serve"
+    "start": "http-server -a '0.0.0.0' -p '8080' build/bundled"
   },
   "devDependencies": {
     "npm-run-all": "^4.0.2",
