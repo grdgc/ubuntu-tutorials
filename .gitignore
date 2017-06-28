@@ -1,11 +1,11 @@
 # api/
-bower_components
+# bower_components
 # build
 # images/assets
 node_modules
 # src/codelabs
 tools/claat-linux-amd64
-static/
+#static/
 # .docker-project
 
 # ignore downloaded binaries
