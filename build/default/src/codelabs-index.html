@@ -3447,13 +3447,13 @@ style this element.
         display: none !important;
       }
 
-      input::-webkit-outer-spin-button,                                                                                                     
-      input::-webkit-inner-spin-button {                                                                                                    
-        @apply(--paper-input-container-input-webkit-spinner);                                                                                                                                                                                      
+      input::-webkit-outer-spin-button,
+      input::-webkit-inner-spin-button {
+        @apply(--paper-input-container-input-webkit-spinner);
       }
-      
+
       input::-webkit-clear-button {
-        @apply(--paper-input-container-input-webkit-clear);  
+        @apply(--paper-input-container-input-webkit-clear);
       }
 
       input::-webkit-input-placeholder {
@@ -3780,7 +3780,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
           this._scrollInteractionHandler.bind(this);
         for (var i = 0, l = scrollEvents.length; i < l; i++) {
           // NOTE: browsers that don't support objects as third arg will
-          // interpret it as boolean, hence useCapture = true in this case. 
+          // interpret it as boolean, hence useCapture = true in this case.
           document.addEventListener(scrollEvents[i], this._boundScrollHandler, {
             capture: true,
             passive: false
@@ -4547,7 +4547,7 @@ Custom property | Description | Default
         margin-bottom: -10px;
         margin-top: 20px;
       }
-      
+
       #trigger {
         cursor: pointer;
       }
@@ -5214,7 +5214,7 @@ respectively.
           dynamicAlign: {
             type: Boolean
           },
-            
+
           /**
            * Whether focus should be restored to the dropdown when the menu closes.
            */
@@ -6636,7 +6636,7 @@ Custom property | Description | Default
         text-decoration: underline;
       }
     .external {
-        background-image: url("images/assets/external-link-orange.svg");
+        background-image: url("/images/assets/external-link-orange.svg");
         background-position: 100% top;
         background-repeat: no-repeat;
         background-size: 0.7em 0.7em;
@@ -6654,7 +6654,7 @@ Custom property | Description | Default
             <h1>{{currentEvent.name}}</h1>
             <p>{{currentEvent.description}}</p>
           </div>
-        
+
       </header></template>
       <div class="content">
         <div class="wrap intro">
