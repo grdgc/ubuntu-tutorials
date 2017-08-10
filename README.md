@@ -1,5 +1,7 @@
 # tutorials.ubuntu.com
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/sethbergman/ubuntu-tutorials.svg)](https://greenkeeper.io/)
+
 The Polymer application that runs <https://ubuntu-tutorials.npmstack.com>.
 
 For anyone wishing to contribute work or file issues, please read [CONTRIBUTING.md](CONTRIBUTING.md).
